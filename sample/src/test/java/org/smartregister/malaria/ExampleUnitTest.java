@@ -1,4 +1,4 @@
-package org.smartregister.malaria;
+package org.smartregister.vmmc;
 
 import org.junit.Test;
 

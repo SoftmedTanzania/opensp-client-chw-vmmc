@@ -7,9 +7,9 @@
         "fields": [
           {
             "field": "eventType",
-            "field_value": "Malaria Confirmation",
+            "field_value": "Vmmc Confirmation",
             "creates_case": [
-              "ec_malaria_confirmation"
+              "ec_vmmc_confirmation"
             ]
           }
         ]

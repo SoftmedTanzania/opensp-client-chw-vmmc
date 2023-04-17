@@ -8,7 +8,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.smartregister.AllConstants;
 import org.smartregister.application.SampleApplication;
 import org.smartregister.configurableviews.repository.ConfigurableViewsRepository;
-import org.smartregister.malaria.BuildConfig;
+import org.smartregister.vmmc.BuildConfig;
 
 public class SampleRepository extends Repository {
 

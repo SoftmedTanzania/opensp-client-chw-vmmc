@@ -1,1 +1,1 @@
-include ':sample', ':opensrp-chw-malaria'
+include ':sample', ':opensrp-chw-vmmc'

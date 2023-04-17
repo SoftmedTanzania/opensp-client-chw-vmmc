@@ -291,7 +291,7 @@
       ]
     },
     {
-      "name": "ec_malaria_confirmation",
+      "name": "ec_vmmc_confirmation",
       "columns": [
         {
           "column_name": "base_entity_id",
@@ -301,7 +301,7 @@
           }
         },
         {
-          "column_name": "date_chw_malaria_test",
+          "column_name": "date_chw_vmmc_test",
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
@@ -309,11 +309,11 @@
           }
         },
         {
-          "column_name": "fever_malaria_chw",
+          "column_name": "fever_vmmc_chw",
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "concept": "fever_malaria_chw"
+            "concept": "fever_vmmc_chw"
           }
         },
         {
@@ -325,7 +325,7 @@
           }
         },
         {
-          "column_name": "malaria_results",
+          "column_name": "vmmc_results",
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
@@ -333,15 +333,15 @@
           }
         },
         {
-          "column_name": "date_hf_malaria_test",
+          "column_name": "date_hf_vmmc_test",
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "formSubmissionField": "date_hf_malaria_test"
+            "formSubmissionField": "date_hf_vmmc_test"
           }
         },
         {
-          "column_name": "malaria_test_date",
+          "column_name": "vmmc_test_date",
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
@@ -349,11 +349,11 @@
           }
         },
         {
-          "column_name": "malaria_treat",
+          "column_name": "vmmc_treat",
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
-            "formSubmissionField": "malaria_treat"
+            "formSubmissionField": "vmmc_treat"
           }
         },
         {
@@ -381,7 +381,7 @@
           }
         },
         {
-          "column_name": "malaria_edu_chw",
+          "column_name": "vmmc_edu_chw",
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
