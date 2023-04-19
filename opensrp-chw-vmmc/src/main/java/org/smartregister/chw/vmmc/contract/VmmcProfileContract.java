@@ -26,6 +26,9 @@ public interface VmmcProfileContract {
         void recordPnc(MemberObject memberObject);
 
         void hideView();
+
+        void openFollowupVisit();
+
     }
 
     interface Presenter {

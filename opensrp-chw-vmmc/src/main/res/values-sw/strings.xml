@@ -10,7 +10,9 @@
     <string name="job_aids">Vitendea kazi</string>
     <string name="saving_dialog_title">Kuhifadhi</string>
     <string name="vmmc_followup_visit">Tembeleo la ufuatiliaji</string>
-    <string name="record_vmmc">Rekodi ufuatiliaji wa vmmc</string>
+    <string name="record_vmmc">Utoaji wa Huduma Ya VMMC</string>
+    <string name="optional">Sio lazima</string>
+    <string name="error_unable_save_visit">Imeshindwa kuitunza hii visit</string>
     <string name="return_to_previous_page">Rudi kwenye wateja wote wa vmmc</string>
     <string name="last_visit_40_days_ago">Tembeleo la mwisho %1$s uliyopita</string>
     <string name="view_medical_history">Angalia historia ya huduma</string>

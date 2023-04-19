@@ -177,6 +177,9 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         } else if (id == R.id.rlFamilyServicesDue) {
             this.openFamilyDueServices();
         }
+        else if (id == R.id.textview_record_vmmc) {
+            this.openFollowupVisit();
+        }
     }
 
     @Override
@@ -203,6 +206,11 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         textViewRecordVmmc.setVisibility(View.GONE);
     }
 
+    @Override
+    public void openFollowupVisit() {
+        //Implement in application
+    }
+
     @SuppressLint("DefaultLocale")
     @Override
     public void setProfileViewWithData() {
@@ -214,10 +222,10 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         textViewUniqueID.setText(memberObject.getUniqueId());
 
         if (StringUtils.isNotBlank(memberObject.getFamilyHead()) && memberObject.getFamilyHead().equals(memberObject.getBaseEntityId())) {
-            findViewById(R.id.family_vmmc_head).setVisibility(View.VISIBLE);
+            findViewById(R.id.family_vmmc_head).setVisibility(View.GONE);
         }
         if (StringUtils.isNotBlank(memberObject.getPrimaryCareGiver()) && memberObject.getPrimaryCareGiver().equals(memberObject.getBaseEntityId())) {
-            findViewById(R.id.primary_vmmc_caregiver).setVisibility(View.VISIBLE);
+            findViewById(R.id.primary_vmmc_caregiver).setVisibility(View.GONE);
         }
         if (memberObject.getVmmcTestDate() != null) {
             textview_positive_date.setText(getString(R.string.vmmc_positive) + " " + formatTime(memberObject.getVmmcTestDate()));
@@ -252,7 +260,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     @Override
     public void refreshMedicalHistory(boolean hasHistory) {
         showProgressBar(false);
-        rlLastVisit.setVisibility(hasHistory ? View.VISIBLE : View.GONE);
+//        rlLastVisit.setVisibility(hasHistory ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -260,8 +268,8 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         showProgressBar(false);
         if (status == AlertStatus.complete)
             return;
-        view_most_due_overdue_row.setVisibility(View.VISIBLE);
-        rlUpcomingServices.setVisibility(View.VISIBLE);
+        view_most_due_overdue_row.setVisibility(View.GONE);
+        rlUpcomingServices.setVisibility(View.GONE);
 
         if (status == AlertStatus.upcoming) {
             tvUpComingServices.setText(VmmcUtil.fromHtml(getString(R.string.vaccine_service_upcoming, service, dateFormat.format(date))));
@@ -284,7 +292,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 
     private void setFamilyStatus(String familyStatus) {
         view_family_row.setVisibility(View.VISIBLE);
-        rlFamilyServicesDue.setVisibility(View.VISIBLE);
+        rlFamilyServicesDue.setVisibility(View.GONE);
         tvFamilyStatus.setText(familyStatus);
     }
 

@@ -2,6 +2,8 @@ package org.smartregister.chw.vmmc;
 
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
+import org.smartregister.chw.vmmc.repository.VisitDetailsRepository;
+import org.smartregister.chw.vmmc.repository.VisitRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
@@ -20,6 +22,38 @@ public class VmmcLibrary {
 
     private ClientProcessorForJava clientProcessorForJava;
     private Compressor compressor;
+
+    private VisitRepository visitRepository;
+    private VisitDetailsRepository visitDetailsRepository;
+
+    public String getSaveDateFormat() {
+        return saveDateFormat;
+    }
+
+    public void setSaveDateFormat(String saveDateFormat) {
+        this.saveDateFormat = saveDateFormat;
+    }
+
+    private String sourceDateFormat = "dd-MM-yyyy";
+    private String saveDateFormat = "yyyy-MM-dd";
+
+    public static boolean isSubmitOnSave() {
+        return submitOnSave;
+    }
+
+    public void setSubmitOnSave(boolean submitOnSave) {
+        VmmcLibrary.submitOnSave = submitOnSave;
+    }
+
+    private static boolean submitOnSave = false;
+
+    public String getSourceDateFormat() {
+        return sourceDateFormat;
+    }
+
+    public void setSourceDateFormat(String sourceDateFormat) {
+        this.sourceDateFormat = sourceDateFormat;
+    }
 
     public static void init(Context context, Repository repository, int applicationVersion, int databaseVersion) {
         if (instance == null) {
@@ -76,6 +110,20 @@ public class VmmcLibrary {
 
     public void setClientProcessorForJava(ClientProcessorForJava clientProcessorForJava) {
         this.clientProcessorForJava = clientProcessorForJava;
+    }
+
+    public VisitRepository visitRepository() {
+        if (visitRepository == null) {
+            visitRepository = new VisitRepository();
+        }
+        return visitRepository;
+    }
+
+    public VisitDetailsRepository visitDetailsRepository() {
+        if (visitDetailsRepository == null) {
+            visitDetailsRepository = new VisitDetailsRepository();
+        }
+        return visitDetailsRepository;
     }
 
 }

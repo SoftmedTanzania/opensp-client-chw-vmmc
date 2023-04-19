@@ -12,7 +12,9 @@
     <string name="saving_dialog_title">Saving</string>
     <string name="interpunct" translatable="false">\u00b7</string>
     <string name="vmmc_followup_visit">FOLLOWUP\nVISIT</string>
-    <string name="record_vmmc">Record vmmc follow-up</string>
+    <string name="record_vmmc">Provide VMMC Services</string>
+    <string name="optional">Optional</string>
+    <string name="error_unable_save_visit">Unable to save visit</string>
     <string name="return_to_previous_page">Return all Vmmc Clients</string>
     <string name="last_visit_40_days_ago">Last visit %1$s ago</string>
     <string name="view_medical_history">View medical history</string>

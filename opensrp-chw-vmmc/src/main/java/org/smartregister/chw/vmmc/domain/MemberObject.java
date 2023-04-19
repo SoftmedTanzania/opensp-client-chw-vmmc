@@ -1,5 +1,7 @@
 package org.smartregister.chw.vmmc.domain;
 
+import org.smartregister.util.Utils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,6 +16,7 @@ public class MemberObject implements Serializable {
     private String gender;
     private String uniqueId;
     private String age;
+    private String dob;
     private String relationalid;
     private String details;
     private String dateChwVmmcTest;
@@ -63,12 +66,20 @@ public class MemberObject implements Serializable {
         return lastName;
     }
 
+    public String getFullName() {
+        return Utils.getName(getFirstName(), getLastName());
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
     public String getAge() {
         return age;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 
     public void setAge(String age) {

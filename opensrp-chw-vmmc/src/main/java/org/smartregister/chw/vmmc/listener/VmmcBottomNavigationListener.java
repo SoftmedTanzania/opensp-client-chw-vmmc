@@ -24,8 +24,6 @@ public class VmmcBottomNavigationListener extends BottomNavigationListener {
 
         if (item.getItemId() == R.id.action_family) {
             baseRegisterActivity.switchToBaseFragment();
-        } else if (item.getItemId() == R.id.action_scan_qr) {
-            baseRegisterActivity.startQrCodeScanner();
         }
 
         return true;

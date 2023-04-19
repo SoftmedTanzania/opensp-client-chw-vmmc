@@ -135,7 +135,7 @@ public class BaseVmmcRegisterActivity extends BaseRegisterActivity implements Vm
 
     @MenuRes
     public int getMenuResource() {
-        return R.menu.bottom_nav_family_menu;
+        return R.menu.bottom_nav_vmmc;
     }
 
     @Override

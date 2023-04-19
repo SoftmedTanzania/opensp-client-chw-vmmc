@@ -6,6 +6,8 @@ public interface Constants {
     String ENCOUNTER_TYPE = "encounter_type";
     String STEP_ONE = "step1";
     String STEP_TWO = "step2";
+    String VMMC_VISIT_GROUP = "vmmc_visit_group";
+
 
     interface JSON_FORM_EXTRA {
         String JSON = "json";
@@ -15,6 +17,8 @@ public interface Constants {
     interface EVENT_TYPE {
         String VMMC_CONFIRMATION = "Vmmc Confirmation";
         String VMMC_FOLLOW_UP_VISIT = "Vmmc Follow-up Visit";
+        String VOID_EVENT = "Void Event";
+
     }
 
     interface FORMS {
@@ -22,9 +26,16 @@ public interface Constants {
         String VMMC_FOLLOW_UP_VISIT = "vmmc_followup_visit";
     }
 
+    interface VMMC_FOLLOWUP_FORMS {
+        String MEDICAL_HISTORY = "vmmc_medical_history";
+        String PHYSICAL_EXAMINATION = "vmmc_physical_examination";
+        String HTS = "vmmc_hts";
+    }
+
     interface TABLES {
         String VMMC_CONFIRMATION = "ec_vmmc_confirmation";
         String VMMC_FOLLOW_UP = "ec_vmmc_follow_up_visit";
+
     }
 
     interface ACTIVITY_PAYLOAD {
@@ -32,6 +43,10 @@ public interface Constants {
         String FAMILY_BASE_ENTITY_ID = "FAMILY_BASE_ENTITY_ID";
         String ACTION = "ACTION";
         String VMMC_FORM_NAME = "VMMC_FORM_NAME";
+        String MEMBER_PROFILE_OBJECT = "MemberObject";
+        String EDIT_MODE = "editMode";
+        String PROFILE_TYPE = "profile_type";
+
 
     }
 
@@ -46,6 +61,10 @@ public interface Constants {
 
     interface VMMC_MEMBER_OBJECT {
         String MEMBER_OBJECT = "memberObject";
+    }
+
+    interface PROFILE_TYPES {
+        String VMMC_PROFILE = "vmmc_profile";
     }
 
 }
