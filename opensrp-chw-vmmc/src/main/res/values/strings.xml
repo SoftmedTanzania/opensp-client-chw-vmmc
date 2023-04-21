@@ -13,6 +13,10 @@
     <string name="interpunct" translatable="false">\u00b7</string>
     <string name="vmmc_followup_visit">FOLLOWUP\nVISIT</string>
     <string name="record_vmmc">Provide VMMC Services</string>
+    <string name="vmmc_procedure">Provide VMMC Procedure</string>
+    <string name="vmmc_discharge">Post Op Discharge</string>
+    <string name="vmmc_notifiable">Notifiable adverse events</string>
+
     <string name="optional">Optional</string>
     <string name="error_unable_save_visit">Unable to save visit</string>
     <string name="return_to_previous_page">Return all Vmmc Clients</string>

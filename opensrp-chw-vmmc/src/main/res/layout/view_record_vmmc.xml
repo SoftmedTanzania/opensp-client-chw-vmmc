@@ -153,6 +153,60 @@
             android:text="@string/record_vmmc"
             android:textColor="@color/white" />
 
+        <org.smartregister.view.customcontrols.CustomFontTextView
+            android:id="@+id/textview_procedure_vmmc"
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/record_btn_selector"
+            android:gravity="center_horizontal"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="10dp"
+            android:text="@string/vmmc_procedure"
+            android:textColor="@color/white"
+            />
+
+        <org.smartregister.view.customcontrols.CustomFontTextView
+            android:id="@+id/textview_discharge_vmmc"
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/record_btn_selector"
+            android:gravity="center_horizontal"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="10dp"
+            android:text="@string/vmmc_discharge"
+            android:textColor="@color/white"
+            />
+
+        <org.smartregister.view.customcontrols.CustomFontTextView
+            android:id="@+id/textview_notifiable_vmmc"
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/record_btn_selector"
+            android:gravity="center_horizontal"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="10dp"
+            android:text="@string/vmmc_notifiable"
+            android:textColor="@color/white"
+            />
+
     </LinearLayout>
 
     <View

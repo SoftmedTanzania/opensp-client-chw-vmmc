@@ -124,9 +124,12 @@ public class VmmcDao extends AbstractDao {
     }
 
     public static boolean isRegisteredForVmmc(String baseEntityID) {
+//        String sql = "SELECT count(p.base_entity_id) count FROM ec_vmmc_confirmation p " +
+//                "WHERE p.base_entity_id = '" + baseEntityID + "' AND p.is_closed = 0 AND p.vmmc  = 1 " +
+//                "AND datetime('NOW') <= datetime(p.last_interacted_with/1000, 'unixepoch', 'localtime','+15 days')";
+
         String sql = "SELECT count(p.base_entity_id) count FROM ec_vmmc_confirmation p " +
-                "WHERE p.base_entity_id = '" + baseEntityID + "' AND p.is_closed = 0 AND p.vmmc  = 1 " +
-                "AND datetime('NOW') <= datetime(p.last_interacted_with/1000, 'unixepoch', 'localtime','+15 days')";
+                "WHERE p.base_entity_id = '" + baseEntityID + "' AND p.is_closed = 0 ";
 
         DataMap<Integer> dataMap = cursor -> getCursorIntValue(cursor, "count");
 

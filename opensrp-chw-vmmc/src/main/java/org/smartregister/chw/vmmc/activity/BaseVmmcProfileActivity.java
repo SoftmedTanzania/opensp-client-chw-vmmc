@@ -21,10 +21,12 @@ import android.widget.TextView;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+import org.smartregister.chw.vmmc.VmmcLibrary;
 import org.smartregister.chw.vmmc.contract.VmmcProfileContract;
 import org.smartregister.chw.vmmc.custom_views.BaseVmmcFloatingMenu;
 import org.smartregister.chw.vmmc.dao.VmmcDao;
 import org.smartregister.chw.vmmc.domain.MemberObject;
+import org.smartregister.chw.vmmc.domain.Visit;
 import org.smartregister.chw.vmmc.interactor.BaseVmmcProfileInteractor;
 import org.smartregister.chw.vmmc.presenter.BaseVmmcProfilePresenter;
 import org.smartregister.chw.vmmc.util.Constants;
@@ -36,6 +38,7 @@ import org.smartregister.view.activity.BaseProfileActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -51,6 +54,9 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     protected TextView textViewLocation;
     protected TextView textViewUniqueID;
     protected TextView textViewRecordVmmc;
+    protected TextView textViewProcedureVmmc;
+    protected TextView textViewNotifiableVmmc;
+    protected TextView textViewDischargeVmmc;
     protected TextView textViewRecordAnc;
     protected TextView textview_positive_date;
     protected View view_last_visit_row;
@@ -73,6 +79,8 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     protected TextView textViewVisitDoneEdit;
     protected TextView textViewRecordAncNotDone;
 
+    protected String profileType;
+
     private ProgressBar progressBar;
     protected BaseVmmcFloatingMenu baseVmmcFloatingMenu;
 
@@ -88,6 +96,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         Toolbar toolbar = findViewById(R.id.collapsing_toolbar);
         setSupportActionBar(toolbar);
         String baseEntityId = getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID);
+        profileType = getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.PROFILE_TYPE);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -127,6 +136,9 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         textViewRecordAncNotDone = findViewById(R.id.textview_record_anc_not_done);
         textViewVisitDoneEdit = findViewById(R.id.textview_edit);
         textViewRecordVmmc = findViewById(R.id.textview_record_vmmc);
+        textViewProcedureVmmc = findViewById(R.id.textview_procedure_vmmc);
+        textViewNotifiableVmmc = findViewById(R.id.textview_notifiable_vmmc);
+        textViewDischargeVmmc = findViewById(R.id.textview_discharge_vmmc);
         textViewRecordAnc = findViewById(R.id.textview_record_anc);
         textViewUndo = findViewById(R.id.textview_undo);
         imageView = findViewById(R.id.imageview_profile);
@@ -138,6 +150,9 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         rlFamilyServicesDue.setOnClickListener(this);
         rlVmmcPositiveDate.setOnClickListener(this);
         textViewRecordVmmc.setOnClickListener(this);
+        textViewProcedureVmmc.setOnClickListener(this);
+        textViewNotifiableVmmc.setOnClickListener(this);
+        textViewDischargeVmmc.setOnClickListener(this);
         textViewRecordAnc.setOnClickListener(this);
         textViewUndo.setOnClickListener(this);
 
@@ -153,6 +168,27 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         initializeFloatingMenu();
         recordAnc(memberObject);
         recordPnc(memberObject);
+        setupButtons();
+    }
+
+    protected void setupButtons() {
+        if (isVisitOnProgress(profileType)) {
+            textViewRecordVmmc.setVisibility(View.GONE);
+        } else {
+//            textViewRecordVmmc.setVisibility(View.VISIBLE);
+            textViewProcedureVmmc.setVisibility(View.VISIBLE);
+//            textViewRecordKvp.setVisibility(View.VISIBLE);
+//            visitInProgress.setVisibility(View.GONE);
+        }
+    }
+
+    protected boolean isVisitOnProgress(String profileType) {
+//        if (profileType.equalsIgnoreCase(Constants.PROFILE_TYPES.VMMC_PROFILE)) {
+//            List<Visit> vmmcServiceVisit = VmmcLibrary.getInstance().visitRepository().getAllVisitsProcessed(Constants.EVENT_TYPE.VMMC_CONFIRMATION, memberObject.getBaseEntityId());
+//            return vmmcServiceVisit != null;
+//        }
+
+        return false;
     }
 
     @Override
@@ -180,6 +216,20 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         else if (id == R.id.textview_record_vmmc) {
             this.openFollowupVisit();
         }
+        else if (id == R.id.textview_procedure_vmmc) {
+            this.openFollowupVisit();
+        }
+        else if (id == R.id.textview_discharge_vmmc) {
+            this.openFollowupVisit();
+        }
+        else if (id == R.id.textview_notifiable_vmmc) {
+            this.startVmmcNotifiableForm(memberObject.getBaseEntityId());
+        }
+    }
+
+    @Override
+    public void startVmmcNotifiableForm(String baseEntityId) {
+        //implement
     }
 
     @Override
@@ -204,6 +254,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     @Override
     public void hideView() {
         textViewRecordVmmc.setVisibility(View.GONE);
+        textViewProcedureVmmc.setVisibility(View.GONE);
     }
 
     @Override
@@ -235,6 +286,8 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     @Override
     public void setOverDueColor() {
         textViewRecordVmmc.setBackground(getResources().getDrawable(R.drawable.record_btn_selector_overdue));
+        textViewProcedureVmmc.setBackground(getResources().getDrawable(R.drawable.record_btn_selector_overdue));
+
     }
 
     @Override

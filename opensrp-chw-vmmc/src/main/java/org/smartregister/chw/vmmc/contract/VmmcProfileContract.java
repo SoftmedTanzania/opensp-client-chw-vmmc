@@ -61,5 +61,8 @@ public interface VmmcProfileContract {
 
         void refreshFamilyStatus(AlertStatus status);
 
+        void startVmmcNotifiableForm(String baseEntityId);
+
+
     }
 }
