@@ -92,8 +92,8 @@ public class VmmcJsonFormUtils extends org.smartregister.util.JsonFormUtils {
 
         if (Constants.EVENT_TYPE.VMMC_CONFIRMATION.equals(encounter_type)) {
             encounter_type = Constants.TABLES.VMMC_CONFIRMATION;
-        } else if (Constants.EVENT_TYPE.VMMC_CONFIRMATION.equals(encounter_type)) {
-            encounter_type = Constants.TABLES.VMMC_CONFIRMATION;
+        } else if (Constants.EVENT_TYPE.VMMC_PROCEDURE.equals(encounter_type)) {
+            encounter_type = Constants.TABLES.VMMC_PROCEDURE;
         }
         return org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, METADATA), formTag(allSharedPreferences), entityId, getString(jsonForm, ENCOUNTER_TYPE), encounter_type);
     }

@@ -63,6 +63,7 @@ public interface VmmcProfileContract {
 
         void startVmmcNotifiableForm(String baseEntityId);
 
+        void startVmmcFollowUp(String baseEntityId);
 
     }
 }

@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -57,6 +61,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     protected TextView textViewProcedureVmmc;
     protected TextView textViewNotifiableVmmc;
     protected TextView textViewDischargeVmmc;
+    protected TextView textViewFollowUpVmmc;
     protected TextView textViewRecordAnc;
     protected TextView textview_positive_date;
     protected View view_last_visit_row;
@@ -139,6 +144,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         textViewProcedureVmmc = findViewById(R.id.textview_procedure_vmmc);
         textViewNotifiableVmmc = findViewById(R.id.textview_notifiable_vmmc);
         textViewDischargeVmmc = findViewById(R.id.textview_discharge_vmmc);
+        textViewFollowUpVmmc = findViewById(R.id.textview_followup_vmmc);
         textViewRecordAnc = findViewById(R.id.textview_record_anc);
         textViewUndo = findViewById(R.id.textview_undo);
         imageView = findViewById(R.id.imageview_profile);
@@ -153,6 +159,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         textViewProcedureVmmc.setOnClickListener(this);
         textViewNotifiableVmmc.setOnClickListener(this);
         textViewDischargeVmmc.setOnClickListener(this);
+        textViewFollowUpVmmc.setOnClickListener(this);
         textViewRecordAnc.setOnClickListener(this);
         textViewUndo.setOnClickListener(this);
 
@@ -160,6 +167,18 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         memberObject = VmmcDao.getMember(baseEntityId);
         initializePresenter();
         profilePresenter.fillProfileData(memberObject);
+        setupViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupViews();
+    }
+
+    @Override
+    protected void onResumption() {
+        super.onResumption();
         setupViews();
     }
 
@@ -172,24 +191,63 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     }
 
     protected void setupButtons() {
-        if (isVisitOnProgress(profileType)) {
-            textViewRecordVmmc.setVisibility(View.GONE);
-        } else {
-//            textViewRecordVmmc.setVisibility(View.VISIBLE);
-            textViewProcedureVmmc.setVisibility(View.VISIBLE);
-//            textViewRecordKvp.setVisibility(View.VISIBLE);
-//            visitInProgress.setVisibility(View.GONE);
+
+        Visit confirmationVisit = null;
+        Visit procedureVisit = null;
+        Visit dischargeVisit = null;
+
+        try{
+            confirmationVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_CONFIRMATION);
+            Log.d("vmmc-conf", confirmationVisit.getVisitType());
+
+            if (confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_CONFIRMATION)){
+                textViewRecordVmmc.setVisibility(View.GONE);
+                textViewProcedureVmmc.setVisibility(View.VISIBLE);
+                textViewDischargeVmmc.setVisibility(View.GONE);
+                textViewNotifiableVmmc.setVisibility(View.GONE);
+            }
+            else {
+                Snackbar.make(textViewDischargeVmmc,"SnackBar",Snackbar.LENGTH_LONG).show();
+            }
+
+        }catch (Exception e){
+            Log.d("vmmc-error-conf", e.getMessage());
+        }
+
+        try {
+            procedureVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_PROCEDURE);
+            Log.d("vmmc-proc", procedureVisit.getVisitType());
+
+            if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE)){
+                textViewRecordVmmc.setVisibility(View.GONE);
+                textViewProcedureVmmc.setVisibility(View.GONE);
+                textViewDischargeVmmc.setVisibility(View.VISIBLE);
+                textViewNotifiableVmmc.setVisibility(View.VISIBLE);
+            }
+        }
+
+        catch (Exception e){
+            Log.d("vmmc-error-proc", e.getMessage());
+        }
+
+        try {
+            dischargeVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_DISCHARGE);
+            Log.d("vmmc-proc", dischargeVisit.getVisitType());
+
+            if (dischargeVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_DISCHARGE)){
+                textViewRecordVmmc.setVisibility(View.GONE);
+                textViewProcedureVmmc.setVisibility(View.GONE);
+                textViewDischargeVmmc.setVisibility(View.GONE);
+                textViewFollowUpVmmc.setVisibility(View.VISIBLE);
+                textViewNotifiableVmmc.setVisibility(View.VISIBLE);
+            }
+        }
+
+        catch (Exception e){
+            Log.d("vmmc-error-proc", e.getMessage());
         }
     }
 
-    protected boolean isVisitOnProgress(String profileType) {
-//        if (profileType.equalsIgnoreCase(Constants.PROFILE_TYPES.VMMC_PROFILE)) {
-//            List<Visit> vmmcServiceVisit = VmmcLibrary.getInstance().visitRepository().getAllVisitsProcessed(Constants.EVENT_TYPE.VMMC_CONFIRMATION, memberObject.getBaseEntityId());
-//            return vmmcServiceVisit != null;
-//        }
-
-        return false;
-    }
 
     @Override
     public void recordAnc(MemberObject memberObject) {
@@ -217,18 +275,26 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             this.openFollowupVisit();
         }
         else if (id == R.id.textview_procedure_vmmc) {
-            this.openFollowupVisit();
+//            this.openFollowupVisit();
         }
         else if (id == R.id.textview_discharge_vmmc) {
-            this.openFollowupVisit();
+//            this.openFollowupVisit();
         }
         else if (id == R.id.textview_notifiable_vmmc) {
             this.startVmmcNotifiableForm(memberObject.getBaseEntityId());
+        }
+        else if (id == R.id.textview_followup_vmmc) {
+            this.startVmmcFollowUp(memberObject.getBaseEntityId());
         }
     }
 
     @Override
     public void startVmmcNotifiableForm(String baseEntityId) {
+        //implement
+    }
+
+    @Override
+    public void startVmmcFollowUp(String baseEntityId) {
         //implement
     }
 

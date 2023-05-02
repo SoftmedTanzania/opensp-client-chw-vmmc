@@ -15,6 +15,7 @@
     <string name="record_vmmc">Provide VMMC Services</string>
     <string name="vmmc_procedure">Provide VMMC Procedure</string>
     <string name="vmmc_discharge">Post Op Discharge</string>
+    <string name="vmmc_followup">VMMC Follow up</string>
     <string name="vmmc_notifiable">Notifiable adverse events</string>
 
     <string name="optional">Optional</string>

@@ -45,6 +45,7 @@ public interface Constants {
     interface TABLES {
         String VMMC_CONFIRMATION = "ec_vmmc_confirmation";
         String VMMC_FOLLOW_UP = "ec_vmmc_follow_up_visit";
+        String VMMC_PROCEDURE = "ec_vmmc_procedure";
 
     }
 
@@ -75,6 +76,8 @@ public interface Constants {
 
     interface PROFILE_TYPES {
         String VMMC_PROFILE = "vmmc_profile";
+        String VMMC_PROCEDURE = "vmmc_procedure";
+
     }
 
 }
