@@ -1,5 +1,7 @@
 package org.smartregister.chw.vmmc.domain;
 
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.smartregister.util.Utils;
 
 import java.io.Serializable;
@@ -76,6 +78,10 @@ public class MemberObject implements Serializable {
 
     public String getAge() {
         return age;
+    }
+
+    public int getVisitAge() {
+        return new Period(new DateTime(dob), new DateTime()).getYears();
     }
 
     public void setDob(String dob) {

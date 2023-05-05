@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.chw.vmmc.VmmcLibrary;
@@ -106,7 +109,6 @@ public class BaseVmmcVisitActivity extends SecuredActivity implements BaseVmmcVi
         mAdapter = new BaseVmmcVisitAdapter(this, this, (LinkedHashMap) actionList);
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
         redrawVisitUI();
     }
 
@@ -216,7 +218,7 @@ public class BaseVmmcVisitActivity extends SecuredActivity implements BaseVmmcVi
 
     @Override
     public void redrawHeader(MemberObject memberObject) {
-        tvTitle.setText(MessageFormat.format("{0}, {1}", memberObject.getFullName(), memberObject.getAge()));
+        tvTitle.setText(MessageFormat.format("{0}, {1}", memberObject.getFullName(), memberObject.getVisitAge()));
     }
 
     @Override
