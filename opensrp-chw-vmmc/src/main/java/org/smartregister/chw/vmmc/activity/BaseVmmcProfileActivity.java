@@ -25,6 +25,8 @@ import com.google.android.material.snackbar.Snackbar;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.smartregister.chw.vmmc.VmmcLibrary;
 import org.smartregister.chw.vmmc.contract.VmmcProfileContract;
 import org.smartregister.chw.vmmc.custom_views.BaseVmmcFloatingMenu;
@@ -34,6 +36,7 @@ import org.smartregister.chw.vmmc.domain.Visit;
 import org.smartregister.chw.vmmc.interactor.BaseVmmcProfileInteractor;
 import org.smartregister.chw.vmmc.presenter.BaseVmmcProfilePresenter;
 import org.smartregister.chw.vmmc.util.Constants;
+import org.smartregister.chw.vmmc.util.VmmcJsonFormUtils;
 import org.smartregister.chw.vmmc.util.VmmcUtil;
 import org.smartregister.domain.AlertStatus;
 import org.smartregister.helper.ImageRenderHelper;
@@ -44,6 +47,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import timber.log.Timber;
@@ -217,8 +221,23 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         try {
             procedureVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_PROCEDURE);
             Log.d("vmmc-proc", procedureVisit.getVisitType());
+//            Log.d("vmmc-json", procedureVisit.getJson());
+//             String json =  procedureVisit.getJson();
 
-            if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE)){
+            JSONObject jsonObject = new JSONObject(procedureVisit.getJson());
+            JSONArray obs = jsonObject.getJSONArray("obs");
+
+            JSONObject checkObj = obs.getJSONObject(0);
+
+            JSONArray value = checkObj.getJSONArray("values");
+
+
+            Log.d("vmmc-json", obs.get(0).toString());
+            Log.d("vmmc-json-value", value.toString());
+            Log.d("vmmc-json-value-value", value.get(0).toString());
+
+
+            if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE) && value.get(0).toString().equalsIgnoreCase("yes")){
                 textViewRecordVmmc.setVisibility(View.GONE);
                 textViewProcedureVmmc.setVisibility(View.GONE);
                 textViewDischargeVmmc.setVisibility(View.VISIBLE);

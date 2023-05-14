@@ -58,7 +58,6 @@ public interface Constants {
         String EDIT_MODE = "editMode";
         String PROFILE_TYPE = "profile_type";
 
-
     }
 
     interface ACTIVITY_PAYLOAD_TYPE {
