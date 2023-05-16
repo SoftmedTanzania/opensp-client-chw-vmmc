@@ -204,14 +204,19 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             confirmationVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_CONFIRMATION);
             Log.d("vmmc-conf", confirmationVisit.getVisitType());
 
-            if (confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_CONFIRMATION)){
+            JSONObject jsonObject = new JSONObject(confirmationVisit.getJson());
+            JSONArray obs = jsonObject.getJSONArray("obs");
+            JSONObject checkObj = obs.getJSONObject(4);
+            JSONArray value = checkObj.getJSONArray("values");
+
+            if (confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_CONFIRMATION) && value.get(0).toString().equalsIgnoreCase("yes")){
                 textViewRecordVmmc.setVisibility(View.GONE);
                 textViewProcedureVmmc.setVisibility(View.VISIBLE);
                 textViewDischargeVmmc.setVisibility(View.GONE);
                 textViewNotifiableVmmc.setVisibility(View.GONE);
             }
             else {
-                Snackbar.make(textViewDischargeVmmc,"SnackBar",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(textViewDischargeVmmc,"Clear MC Procedure",Snackbar.LENGTH_LONG).show();
             }
 
         }catch (Exception e){
@@ -221,21 +226,11 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         try {
             procedureVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_PROCEDURE);
             Log.d("vmmc-proc", procedureVisit.getVisitType());
-//            Log.d("vmmc-json", procedureVisit.getJson());
-//             String json =  procedureVisit.getJson();
 
             JSONObject jsonObject = new JSONObject(procedureVisit.getJson());
             JSONArray obs = jsonObject.getJSONArray("obs");
-
             JSONObject checkObj = obs.getJSONObject(0);
-
             JSONArray value = checkObj.getJSONArray("values");
-
-
-            Log.d("vmmc-json", obs.get(0).toString());
-            Log.d("vmmc-json-value", value.toString());
-            Log.d("vmmc-json-value-value", value.get(0).toString());
-
 
             if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE) && value.get(0).toString().equalsIgnoreCase("yes")){
                 textViewRecordVmmc.setVisibility(View.GONE);
