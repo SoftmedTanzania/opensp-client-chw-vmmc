@@ -38,6 +38,7 @@ import org.smartregister.chw.vmmc.presenter.BaseVmmcProfilePresenter;
 import org.smartregister.chw.vmmc.util.Constants;
 import org.smartregister.chw.vmmc.util.VmmcJsonFormUtils;
 import org.smartregister.chw.vmmc.util.VmmcUtil;
+import org.smartregister.chw.vmmc.util.VmmcVisitsUtil;
 import org.smartregister.domain.AlertStatus;
 import org.smartregister.helper.ImageRenderHelper;
 import org.smartregister.vmmc.R;
@@ -204,6 +205,8 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             confirmationVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_CONFIRMATION);
             Log.d("vmmc-conf", confirmationVisit.getVisitType());
 
+            VmmcVisitsUtil.manualProcessVisit(confirmationVisit);
+
             JSONObject jsonObject = new JSONObject(confirmationVisit.getJson());
             JSONArray obs = jsonObject.getJSONArray("obs");
             JSONObject checkObj = obs.getJSONObject(4);
@@ -227,6 +230,8 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             procedureVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_PROCEDURE);
             Log.d("vmmc-proc", procedureVisit.getVisitType());
 
+            VmmcVisitsUtil.manualProcessVisit(procedureVisit);
+
             JSONObject jsonObject = new JSONObject(procedureVisit.getJson());
             JSONArray obs = jsonObject.getJSONArray("obs");
             JSONObject checkObj = obs.getJSONObject(0);
@@ -247,6 +252,8 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         try {
             dischargeVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_DISCHARGE);
             Log.d("vmmc-proc", dischargeVisit.getVisitType());
+
+            VmmcVisitsUtil.manualProcessVisit(dischargeVisit);
 
             if (dischargeVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_DISCHARGE)){
                 textViewRecordVmmc.setVisibility(View.GONE);
