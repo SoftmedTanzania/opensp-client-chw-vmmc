@@ -200,9 +200,12 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         Visit confirmationVisit = null;
         Visit procedureVisit = null;
         Visit dischargeVisit = null;
+        Visit followUpVisit = null;
+        Visit notifiableVisit = null;
+
 
         try{
-            confirmationVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_CONFIRMATION);
+            confirmationVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_SERVICES);
             Log.d("vmmc-conf", confirmationVisit.getVisitType());
 
             VmmcVisitsUtil.manualProcessVisit(confirmationVisit);
@@ -212,7 +215,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             JSONObject checkObj = obs.getJSONObject(4);
             JSONArray value = checkObj.getJSONArray("values");
 
-            if (confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_CONFIRMATION) && value.get(0).toString().equalsIgnoreCase("yes")){
+            if (confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_SERVICES) && value.get(0).toString().equalsIgnoreCase("yes")){
                 textViewRecordVmmc.setVisibility(View.GONE);
                 textViewProcedureVmmc.setVisibility(View.VISIBLE);
                 textViewDischargeVmmc.setVisibility(View.GONE);
@@ -237,7 +240,11 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             JSONObject checkObj = obs.getJSONObject(0);
             JSONArray value = checkObj.getJSONArray("values");
 
-            if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE) && value.get(0).toString().equalsIgnoreCase("yes")){
+            JSONObject checkMcProcedure = obs.getJSONObject(3);
+            JSONArray valueMcProcedure = checkMcProcedure.getJSONArray("values");
+
+            if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE) && value.get(0).toString().equalsIgnoreCase("yes")
+                    && valueMcProcedure.get(0).toString().equalsIgnoreCase("yes")){
                 textViewRecordVmmc.setVisibility(View.GONE);
                 textViewProcedureVmmc.setVisibility(View.GONE);
                 textViewDischargeVmmc.setVisibility(View.VISIBLE);
@@ -264,6 +271,22 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             }
         }
 
+        catch (Exception e){
+            Log.d("vmmc-error-proc", e.getMessage());
+        }
+
+        try {
+            followUpVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_FOLLOW_UP_VISIT);
+            VmmcVisitsUtil.manualProcessVisit(followUpVisit);
+        }
+        catch (Exception e){
+            Log.d("vmmc-error-proc", e.getMessage());
+        }
+
+        try {
+            notifiableVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_NOTIFIABLE_EVENTS);
+            VmmcVisitsUtil.manualProcessVisit(notifiableVisit);
+        }
         catch (Exception e){
             Log.d("vmmc-error-proc", e.getMessage());
         }
@@ -400,7 +423,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     @Override
     public void refreshMedicalHistory(boolean hasHistory) {
         showProgressBar(false);
-//        rlLastVisit.setVisibility(hasHistory ? View.VISIBLE : View.GONE);
+        rlLastVisit.setVisibility(hasHistory ? View.VISIBLE : View.GONE);
     }
 
     @Override

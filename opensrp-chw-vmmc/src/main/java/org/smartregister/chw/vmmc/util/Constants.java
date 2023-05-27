@@ -16,9 +16,11 @@ public interface Constants {
 
     interface EVENT_TYPE {
         String VMMC_CONFIRMATION = "Vmmc Confirmation";
+        String VMMC_SERVICES = "Vmmc Services";
         String VMMC_PROCEDURE = "Vmmc Procedure";
         String VMMC_DISCHARGE = "Vmmc Discharge";
         String VMMC_FOLLOW_UP_VISIT = "Vmmc Follow-up Visit";
+        String VMMC_NOTIFIABLE_EVENTS = "VMMC Notifiable Adverse Events";
         String VOID_EVENT = "Void Event";
 
     }
@@ -45,7 +47,9 @@ public interface Constants {
     interface TABLES {
         String VMMC_CONFIRMATION = "ec_vmmc_confirmation";
         String VMMC_FOLLOW_UP = "ec_vmmc_follow_up_visit";
+        String VMMC_NOTIFIABLE_EVENT = "ec_vmmc_notifiable_ae";
         String VMMC_PROCEDURE = "ec_vmmc_procedure";
+        String VMMC_SERVICE = "ec_vmmc_services";
 
     }
 
