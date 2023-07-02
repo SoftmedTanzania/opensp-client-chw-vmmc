@@ -212,17 +212,27 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 
             JSONObject jsonObject = new JSONObject(confirmationVisit.getJson());
             JSONArray obs = jsonObject.getJSONArray("obs");
+
+            //dont diagonised with HIV VMMC SERVICES
             JSONObject checkObj = obs.getJSONObject(4);
             JSONArray value = checkObj.getJSONArray("values");
 
-            if (confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_SERVICES) && value.get(0).toString().equalsIgnoreCase("yes")){
+            //diagonised with HIV VMMC SERVICES
+            JSONObject checkObj2 = obs.getJSONObject(3);
+            JSONArray value2 = checkObj2.getJSONArray("values");
+
+            if ((confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_SERVICES) && value.get(0).toString().equalsIgnoreCase("yes"))
+            || (confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_SERVICES) && value2.get(0).toString().equalsIgnoreCase("yes"))
+            ){
                 textViewRecordVmmc.setVisibility(View.GONE);
                 textViewProcedureVmmc.setVisibility(View.VISIBLE);
                 textViewDischargeVmmc.setVisibility(View.GONE);
                 textViewNotifiableVmmc.setVisibility(View.GONE);
+                rlLastVisit.setVisibility(View.VISIBLE);
             }
             else {
-                Snackbar.make(textViewDischargeVmmc,"Clear MC Procedure",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(textViewDischargeVmmc,value.get(0).toString(),Snackbar.LENGTH_LONG).show();
+
             }
 
         }catch (Exception e){
