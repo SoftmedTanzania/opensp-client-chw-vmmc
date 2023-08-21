@@ -89,6 +89,17 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     protected TextView textViewVisitDoneEdit;
     protected TextView textViewRecordAncNotDone;
 
+    protected String getGentialExaminationValue;
+    protected String getAnyComplaintsValue;
+    protected String getDiagnosedValue;
+    protected String getAnyComplicationsPreviousSurgicalProcedureValue;
+    protected String getSymptomsHematologicalDiseaseValue;
+    protected String getKnownAllergiesValue;
+    protected String getHivTestResultValue;
+    protected String getViralLoad;
+    protected String getTypeForBloodGlucoseTest;
+    protected String getBloodGlucoseTest;
+
     protected String profileType;
 
     private ProgressBar progressBar;
@@ -210,19 +221,92 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 
             VmmcVisitsUtil.manualProcessVisit(confirmationVisit);
 
-            JSONObject jsonObject = new JSONObject(confirmationVisit.getJson());
-            JSONArray obs = jsonObject.getJSONArray("obs");
+//            JSONObject jsonObject = new JSONObject(confirmationVisit.getJson());
+//            JSONArray obs = jsonObject.getJSONArray("obs");
+//
+//            //dont diagonised with HIV VMMC SERVICES
+//            JSONObject checkObj = obs.getJSONObject(4);
+//            JSONArray value = checkObj.getJSONArray("values");
+//
+//            //diagonised with HIV VMMC SERVICES
+//            JSONObject checkObj2 = obs.getJSONObject(3);
+//            JSONArray value2 = checkObj2.getJSONArray("values");
+//
+//            JSONObject checkAnyComplaints = obs.getJSONObject(17);
+//            JSONArray anyComplaintsValue = checkAnyComplaints.getJSONArray("values");
+//
+//            JSONObject checkDiagnosed = obs.getJSONObject(18);
+//            JSONArray diagnosedValue = checkDiagnosed.getJSONArray("values");
+//
+//            JSONObject checkAnyComplicationsPreviousSurgicalProcedure = obs.getJSONObject(21);
+//            JSONArray anyComplicationsPreviousSurgicalProcedureValue = checkAnyComplicationsPreviousSurgicalProcedure.getJSONArray("values");
+//
+//            JSONObject checkSymptomsHematologicalDisease = obs.getJSONObject(23);
+//            JSONArray symptomsHematologicalDiseaseValue = checkSymptomsHematologicalDisease.getJSONArray("values");
+//
+//            JSONObject checkKnownAllergies = obs.getJSONObject(24);
+//            JSONArray knownAllergiesValue = checkKnownAllergies.getJSONArray("values");
+//
+//            JSONObject checkGenitalExamination = obs.getJSONObject(14);
+//            JSONArray genitalExaminationValue = checkGenitalExamination.getJSONArray("values");
+//
+//            JSONObject checkHIVTestResult = obs.getJSONObject(14);
+//            JSONArray hivTestResultValue = checkGenitalExamination.getJSONArray("values");
+//
+//            Log.d("pata values", anyComplaintsValue.toString() + " "+ diagnosedValue +" "+anyComplicationsPreviousSurgicalProcedureValue+" "+knownAllergiesValue);
 
-            //dont diagonised with HIV VMMC SERVICES
-            JSONObject checkObj = obs.getJSONObject(4);
-            JSONArray value = checkObj.getJSONArray("values");
+            getGentialExaminationValue = VmmcDao.getGentialExamination(memberObject.getBaseEntityId());
+            getDiagnosedValue = VmmcDao.getDiagnosed(memberObject.getBaseEntityId());
+            getAnyComplicationsPreviousSurgicalProcedureValue = VmmcDao.getAnyComplicationsPreviousSurgicalProcedure(memberObject.getBaseEntityId());
+            getHivTestResultValue = VmmcDao.getHivTestResult(memberObject.getBaseEntityId());
+            getKnownAllergiesValue = VmmcDao.getKnownAllergiesValue(memberObject.getBaseEntityId());
+            getSymptomsHematologicalDiseaseValue = VmmcDao.getSymptomsHematologicalDiseaseValue(memberObject.getBaseEntityId());
+            getAnyComplaintsValue = VmmcDao.getAnyComplaints(memberObject.getBaseEntityId());
+            getViralLoad = VmmcDao.getViralLoad(memberObject.getBaseEntityId());
+            getTypeForBloodGlucoseTest = VmmcDao.getTypeForBloodGlucoseTest(memberObject.getBaseEntityId());
+            getBloodGlucoseTest = VmmcDao.getBloodGlucoseTest(memberObject.getBaseEntityId());
 
-            //diagonised with HIV VMMC SERVICES
-            JSONObject checkObj2 = obs.getJSONObject(3);
-            JSONArray value2 = checkObj2.getJSONArray("values");
 
-            if ((confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_SERVICES) && value.get(0).toString().equalsIgnoreCase("yes"))
-            || (confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_SERVICES) && value2.get(0).toString().equalsIgnoreCase("yes"))
+//             Snackbar.make(textViewDischargeVmmc,getAnyComplicationsPreviousSurgicalProcedureValue.toString(),Snackbar.LENGTH_LONG).show();
+
+//            if (StringUtils.isNotBlank(getGentialExaminationValue) || StringUtils.isNotBlank(getDiagnosedValue) || StringUtils.isNotBlank(getKnownAllergiesValue)
+//                     || StringUtils.isNotBlank(getHivTestResultValue) ||
+//                    StringUtils.isNotBlank(getSymptomsHematologicalDiseaseValue) || StringUtils.isNotBlank(getAnyComplaintsValue)){
+                if (!(getGentialExaminationValue.equalsIgnoreCase("None") &&
+                        (getDiagnosedValue.equalsIgnoreCase("None") || (getDiagnosedValue.equalsIgnoreCase("HIV") && Integer.parseInt(getViralLoad) < 1000)
+                                || ((getTypeForBloodGlucoseTest.equalsIgnoreCase("Random Blood Glucose Test (rbg)") &&
+                                (Integer.parseInt(getBloodGlucoseTest) < 6.9)) || (getTypeForBloodGlucoseTest.equalsIgnoreCase("Fasting Blood Glucose Test") &&
+                                (Integer.parseInt(getBloodGlucoseTest) < 5.9 || Integer.parseInt(getBloodGlucoseTest) > 3.9)))) &&
+                        getKnownAllergiesValue.equalsIgnoreCase("None") &&
+                        !getAnyComplicationsPreviousSurgicalProcedureValue.equalsIgnoreCase("yes") &&
+                        (getHivTestResultValue.equalsIgnoreCase("negative") || getHivTestResultValue.equalsIgnoreCase("")) &&
+                        getSymptomsHematologicalDiseaseValue.equalsIgnoreCase("None") &&
+                        getAnyComplaintsValue.equalsIgnoreCase("None"))
+                ) {
+                    findViewById(R.id.family_vmmc_head).setVisibility(View.VISIBLE);
+                } else {
+                    findViewById(R.id.family_vmmc_head).setVisibility(View.GONE);
+                }
+//            }
+
+//            if(StringUtils.isBlank(getViralLoad)){
+//                getViralLoad = "0";
+//            }
+
+
+            if (getGentialExaminationValue.equalsIgnoreCase("None") &&
+                    (getDiagnosedValue.equalsIgnoreCase("None") || (getDiagnosedValue.equalsIgnoreCase("HIV") && Integer.parseInt(getViralLoad) < 1000)
+                    || ((getTypeForBloodGlucoseTest.equalsIgnoreCase("Random Blood Glucose Test (rbg)") &&
+                            (Integer.parseInt(getBloodGlucoseTest) < 6.9)) || (getTypeForBloodGlucoseTest.equalsIgnoreCase("Fasting Blood Glucose Test") &&
+                            (Integer.parseInt(getBloodGlucoseTest) < 5.9 || Integer.parseInt(getBloodGlucoseTest) > 3.9)))) &&
+                    getKnownAllergiesValue.equalsIgnoreCase("None") &&
+                    !getAnyComplicationsPreviousSurgicalProcedureValue.equalsIgnoreCase("yes") &&
+                    (getHivTestResultValue.equalsIgnoreCase("negative") || getHivTestResultValue.equalsIgnoreCase("")) &&
+                    getSymptomsHematologicalDiseaseValue.equalsIgnoreCase("None") &&
+                    getAnyComplaintsValue.equalsIgnoreCase("None")
+//                    (!getDiagnosedValue.equalsIgnoreCase("Diabetes") || (getTypeForBloodGlucoseTest.equalsIgnoreCase("Random Blood Glucose Test (rbg)") &&
+//                            (Integer.parseInt(getBloodGlucoseTest) < 6.9)) || (getTypeForBloodGlucoseTest.equalsIgnoreCase("Fasting Blood Glucose Test") &&
+//                            (Integer.parseInt(getBloodGlucoseTest) < 5.9 || Integer.parseInt(getBloodGlucoseTest) > 3.9)))
             ){
                 textViewRecordVmmc.setVisibility(View.GONE);
                 textViewProcedureVmmc.setVisibility(View.VISIBLE);
@@ -230,8 +314,18 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
                 textViewNotifiableVmmc.setVisibility(View.GONE);
                 rlLastVisit.setVisibility(View.VISIBLE);
             }
+
+//            if ((confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_SERVICES) && value.get(0).toString().equalsIgnoreCase("yes"))
+//            || (confirmationVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_SERVICES) && value2.get(0).toString().equalsIgnoreCase("yes"))
+//            ){
+//                textViewRecordVmmc.setVisibility(View.GONE);
+//                textViewProcedureVmmc.setVisibility(View.VISIBLE);
+//                textViewDischargeVmmc.setVisibility(View.GONE);
+//                textViewNotifiableVmmc.setVisibility(View.GONE);
+//                rlLastVisit.setVisibility(View.VISIBLE);
+//            }
             else {
-                Snackbar.make(textViewDischargeVmmc,value.get(0).toString(),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(textViewDischargeVmmc,"ERROR" + getDiagnosedValue,Snackbar.LENGTH_LONG).show();
 
             }
 
@@ -253,8 +347,15 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             JSONObject checkMcProcedure = obs.getJSONObject(3);
             JSONArray valueMcProcedure = checkMcProcedure.getJSONArray("values");
 
-            if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE) && value.get(0).toString().equalsIgnoreCase("yes")
-                    && valueMcProcedure.get(0).toString().equalsIgnoreCase("yes")){
+//            if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE) && value.get(0).toString().equalsIgnoreCase("yes")
+//                    && valueMcProcedure.get(0).toString().equalsIgnoreCase("yes")){
+//                textViewRecordVmmc.setVisibility(View.GONE);
+//                textViewProcedureVmmc.setVisibility(View.GONE);
+//                textViewDischargeVmmc.setVisibility(View.VISIBLE);
+//                textViewNotifiableVmmc.setVisibility(View.VISIBLE);
+//            }
+            if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE) && value.get(0).toString().equalsIgnoreCase("yes"))
+            {
                 textViewRecordVmmc.setVisibility(View.GONE);
                 textViewProcedureVmmc.setVisibility(View.GONE);
                 textViewDischargeVmmc.setVisibility(View.VISIBLE);
@@ -392,9 +493,9 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         textViewLocation.setText(memberObject.getAddress());
         textViewUniqueID.setText(memberObject.getUniqueId());
 
-        if (StringUtils.isNotBlank(memberObject.getFamilyHead()) && memberObject.getFamilyHead().equals(memberObject.getBaseEntityId())) {
-            findViewById(R.id.family_vmmc_head).setVisibility(View.GONE);
-        }
+//        if (StringUtils.isNotBlank(memberObject.getFamilyHead()) && memberObject.getFamilyHead().equals(memberObject.getBaseEntityId())) {
+//            findViewById(R.id.family_vmmc_head).setVisibility(View.GONE);
+//        }
         if (StringUtils.isNotBlank(memberObject.getPrimaryCareGiver()) && memberObject.getPrimaryCareGiver().equals(memberObject.getBaseEntityId())) {
             findViewById(R.id.primary_vmmc_caregiver).setVisibility(View.GONE);
         }

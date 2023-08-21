@@ -14,7 +14,7 @@ import org.smartregister.chw.vmmc.dao.VmmcDao;
 import org.smartregister.repository.Repository;
 
 @RunWith(MockitoJUnitRunner.class)
-public class VmmcDaoTest extends VmmcDao {
+class VmmcDaoTest extends VmmcDao {
 
     @Mock
     private Repository repository;

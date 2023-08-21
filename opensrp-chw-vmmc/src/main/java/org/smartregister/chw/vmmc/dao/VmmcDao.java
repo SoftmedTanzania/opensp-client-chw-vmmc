@@ -22,6 +22,136 @@ public class VmmcDao extends AbstractDao {
 
         return res.get(0);
     }
+
+    public static String getGentialExamination(String baseEntityId) {
+        String sql = "SELECT genital_examination FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "genital_examination");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
+    public static String getAnyComplaints(String baseEntityId) {
+        String sql = "SELECT any_complaints FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "any_complaints");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
+    public static String getDiagnosed(String baseEntityId) {
+        String sql = "SELECT client_diagnosed FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "client_diagnosed");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
+    public static String getAnyComplicationsPreviousSurgicalProcedure(String baseEntityId) {
+        String sql = "SELECT complications_previous_surgical FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "complications_previous_surgical");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
+    public static String getSymptomsHematologicalDiseaseValue(String baseEntityId) {
+        String sql = "SELECT hematological_disease FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "hematological_disease");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
+    public static String getKnownAllergiesValue(String baseEntityId) {
+        String sql = "SELECT known_allergies FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "known_allergies");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
+    public static String getHivTestResult(String baseEntityId) {
+        String sql = "SELECT hiv_result FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "hiv_result");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+    public static String getViralLoad(String baseEntityId) {
+        String sql = "SELECT hiv_viral_load_text FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "hiv_viral_load_text");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
+    public static String getTypeForBloodGlucoseTest(String baseEntityId) {
+        String sql = "SELECT type_of_blood_for_glucose_test FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "type_of_blood_for_glucose_test");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
+    public static String getBloodGlucoseTest(String baseEntityId) {
+        String sql = "SELECT blood_for_glucose FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "blood_for_glucose");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
     public static Date getVmmcFollowUpVisitDate(String baseEntityID) {
         String sql = "SELECT eventDate FROM event where eventType ='Vmmc Follow-up Visit' AND baseEntityId ='" + baseEntityID + "'";
 
