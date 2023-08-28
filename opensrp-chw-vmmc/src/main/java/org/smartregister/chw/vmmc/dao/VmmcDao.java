@@ -152,6 +152,19 @@ public class VmmcDao extends AbstractDao {
         return "";
     }
 
+    public static String getDischargeCondition(String baseEntityId) {
+        String sql = "SELECT discharge_condition FROM ec_vmmc_discharge p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "discharge_condition");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
     public static Date getVmmcFollowUpVisitDate(String baseEntityID) {
         String sql = "SELECT eventDate FROM event where eventType ='Vmmc Follow-up Visit' AND baseEntityId ='" + baseEntityID + "'";
 

@@ -99,6 +99,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     protected String getViralLoad;
     protected String getTypeForBloodGlucoseTest;
     protected String getBloodGlucoseTest;
+    protected String getDischargeCondition;
 
     protected String profileType;
 
@@ -359,7 +360,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
                 textViewRecordVmmc.setVisibility(View.GONE);
                 textViewProcedureVmmc.setVisibility(View.GONE);
                 textViewDischargeVmmc.setVisibility(View.VISIBLE);
-                textViewNotifiableVmmc.setVisibility(View.VISIBLE);
+//                textViewNotifiableVmmc.setVisibility(View.VISIBLE);
             }
         }
 
@@ -373,12 +374,14 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 
             VmmcVisitsUtil.manualProcessVisit(dischargeVisit);
 
-            if (dischargeVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_DISCHARGE)){
+            getDischargeCondition = VmmcDao.getDischargeCondition(memberObject.getBaseEntityId());
+
+            if (getDischargeCondition.equalsIgnoreCase("Satisfactory")){
                 textViewRecordVmmc.setVisibility(View.GONE);
                 textViewProcedureVmmc.setVisibility(View.GONE);
                 textViewDischargeVmmc.setVisibility(View.GONE);
                 textViewFollowUpVmmc.setVisibility(View.VISIBLE);
-                textViewNotifiableVmmc.setVisibility(View.VISIBLE);
+//                textViewNotifiableVmmc.setVisibility(View.VISIBLE);
             }
         }
 
@@ -470,6 +473,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
                     LinearLayout.LayoutParams.MATCH_PARENT);
             addContentView(baseVmmcFloatingMenu, linearLayoutParams);
         }
+
     }
 
     @Override
