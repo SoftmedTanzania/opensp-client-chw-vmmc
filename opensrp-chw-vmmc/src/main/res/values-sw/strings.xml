@@ -35,6 +35,7 @@
     <string name="copy_to_clipboard">Nakili namba ya simu</string>
     <string name="copied_phone_number">Namba ya simu imenakiliwa</string>
     <string name="call">Piga simu</string>
+    <string name="refer_to_facility">Rufaa kwenda kituo cha kutolea huduma</string>
     <string name="record_anc">Rekodi tembeleo la ujauzito</string>
     <string name="record_anc_visit_not_done">Tembeleo ujauzito halijafanyika</string>
     <string name="not_visiting_this_month">Hakuna tembeleo mwezi huu</string>
