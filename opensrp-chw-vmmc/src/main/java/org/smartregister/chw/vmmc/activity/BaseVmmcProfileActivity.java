@@ -302,7 +302,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 
             getDischargeCondition = VmmcDao.getDischargeCondition(memberObject.getBaseEntityId());
 
-            if (getDischargeCondition.equalsIgnoreCase("Satisfactory") || getDischargeCondition.equalsIgnoreCase("Needs follow-up")){
+            if (getDischargeCondition.equalsIgnoreCase("Satisfactory") || getDischargeCondition.equalsIgnoreCase("needs_followup")){
                 textViewRecordVmmc.setVisibility(View.GONE);
                 textViewProcedureVmmc.setVisibility(View.GONE);
                 textViewDischargeVmmc.setVisibility(View.GONE);
