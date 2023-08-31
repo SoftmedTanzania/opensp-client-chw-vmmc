@@ -12,7 +12,7 @@ import java.util.Locale;
 public class VmmcDao extends AbstractDao {
 
     public static Date getVmmcTestDate(String baseEntityID) {
-        String sql = "select vmmc_test_date from ec_vmmc_confirmation where base_entity_id = '" + baseEntityID + "'";
+        String sql = "select vmmc_test_date from ec_vmmc_enrollment where base_entity_id = '" + baseEntityID + "'";
 
         DataMap<Date> dataMap = cursor -> getCursorValueAsDate(cursor, "vmmc_test_date", getNativeFormsDateFormat());
 
@@ -153,7 +153,7 @@ public class VmmcDao extends AbstractDao {
     }
 
     public static String getDischargeCondition(String baseEntityId) {
-        String sql = "SELECT discharge_condition FROM ec_vmmc_discharge p " +
+        String sql = "SELECT discharge_condition FROM ec_vmmc_post_op_and_discharge p " +
                 " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
 
         DataMap<String> dataMap = cursor -> getCursorValue(cursor, "discharge_condition");
@@ -218,7 +218,7 @@ public class VmmcDao extends AbstractDao {
                 "       mr.*\n" +
                 "from ec_family_member m\n" +
                 "         inner join ec_family f on m.relational_id = f.base_entity_id\n" +
-                "         inner join ec_vmmc_confirmation mr on mr.base_entity_id = m.base_entity_id\n" +
+                "         inner join ec_vmmc_enrollment mr on mr.base_entity_id = m.base_entity_id\n" +
                 "         left join ec_family_member fh on fh.base_entity_id = f.family_head\n" +
                 "         left join ec_family_member pcg on pcg.base_entity_id = f.primary_caregiver\n" +
                 "         left join ec_anc_register ancr on ancr.base_entity_id = m.base_entity_id\n" +
@@ -275,16 +275,16 @@ public class VmmcDao extends AbstractDao {
 
 
     public static void closeVmmcMemberFromRegister(String baseEntityID) {
-        String sql = "update ec_vmmc_confirmation set is_closed = 1 where base_entity_id = '" + baseEntityID + "'";
+        String sql = "update ec_vmmc_enrollment set is_closed = 1 where base_entity_id = '" + baseEntityID + "'";
         updateDB(sql);
     }
 
     public static boolean isRegisteredForVmmc(String baseEntityID) {
-//        String sql = "SELECT count(p.base_entity_id) count FROM ec_vmmc_confirmation p " +
+//        String sql = "SELECT count(p.base_entity_id) count FROM ec_vmmc_enrollment p " +
 //                "WHERE p.base_entity_id = '" + baseEntityID + "' AND p.is_closed = 0 AND p.vmmc  = 1 " +
 //                "AND datetime('NOW') <= datetime(p.last_interacted_with/1000, 'unixepoch', 'localtime','+15 days')";
 
-        String sql = "SELECT count(p.base_entity_id) count FROM ec_vmmc_confirmation p " +
+        String sql = "SELECT count(p.base_entity_id) count FROM ec_vmmc_enrollment p " +
                 "WHERE p.base_entity_id = '" + baseEntityID + "' AND p.is_closed = 0 ";
 
         DataMap<Integer> dataMap = cursor -> getCursorIntValue(cursor, "count");
@@ -297,7 +297,7 @@ public class VmmcDao extends AbstractDao {
     }
 
     public static Integer getVmmcFamilyMembersCount(String familyBaseEntityId) {
-        String sql = "SELECT count(emc.base_entity_id) count FROM ec_vmmc_confirmation emc " +
+        String sql = "SELECT count(emc.base_entity_id) count FROM ec_vmmc_enrollment emc " +
                 "INNER Join ec_family_member fm on fm.base_entity_id = emc.base_entity_id " +
                 "WHERE fm.relational_id = '" + familyBaseEntityId + "' AND fm.is_closed = 0 " +
                 "AND emc.is_closed = 0 AND emc.vmmc = 1";
@@ -311,7 +311,7 @@ public class VmmcDao extends AbstractDao {
     }
 
     public static MemberObject getMember(String baseEntityID) {
-        String sql = "select m.base_entity_id , m.unique_id , m.relational_id , m.dob , m.first_name , m.middle_name , m.last_name , m.gender , m.phone_number , m.other_phone_number , f.first_name family_name ,f.primary_caregiver , f.family_head , f.village_town ,fh.first_name family_head_first_name , fh.middle_name family_head_middle_name , fh.last_name family_head_last_name, fh.phone_number family_head_phone_number , ancr.is_closed anc_is_closed, pncr.is_closed pnc_is_closed, pcg.first_name pcg_first_name , pcg.last_name pcg_last_name , pcg.middle_name pcg_middle_name , pcg.phone_number  pcg_phone_number , mr.* from ec_family_member m inner join ec_family f on m.relational_id = f.base_entity_id inner join ec_vmmc_confirmation mr on mr.base_entity_id = m.base_entity_id left join ec_family_member fh on fh.base_entity_id = f.family_head left join ec_family_member pcg on pcg.base_entity_id = f.primary_caregiver left join ec_anc_register ancr on ancr.base_entity_id = m.base_entity_id left join ec_pregnancy_outcome pncr on pncr.base_entity_id = m.base_entity_id where m.base_entity_id ='" + baseEntityID + "' ";
+        String sql = "select m.base_entity_id , m.unique_id , m.relational_id , m.dob , m.first_name , m.middle_name , m.last_name , m.gender , m.phone_number , m.other_phone_number , f.first_name family_name ,f.primary_caregiver , f.family_head , f.village_town ,fh.first_name family_head_first_name , fh.middle_name family_head_middle_name , fh.last_name family_head_last_name, fh.phone_number family_head_phone_number , ancr.is_closed anc_is_closed, pncr.is_closed pnc_is_closed, pcg.first_name pcg_first_name , pcg.last_name pcg_last_name , pcg.middle_name pcg_middle_name , pcg.phone_number  pcg_phone_number , mr.* from ec_family_member m inner join ec_family f on m.relational_id = f.base_entity_id inner join ec_vmmc_enrollment mr on mr.base_entity_id = m.base_entity_id left join ec_family_member fh on fh.base_entity_id = f.family_head left join ec_family_member pcg on pcg.base_entity_id = f.primary_caregiver left join ec_anc_register ancr on ancr.base_entity_id = m.base_entity_id left join ec_pregnancy_outcome pncr on pncr.base_entity_id = m.base_entity_id where m.base_entity_id ='" + baseEntityID + "' ";
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 
         DataMap<MemberObject> dataMap = cursor -> {

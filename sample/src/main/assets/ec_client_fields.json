@@ -291,7 +291,7 @@
       ]
     },
     {
-      "name": "ec_vmmc_confirmation",
+      "name": "ec_vmmc_enrollment",
       "columns": [
         {
           "column_name": "base_entity_id",

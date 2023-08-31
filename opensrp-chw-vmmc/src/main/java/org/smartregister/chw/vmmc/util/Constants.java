@@ -26,26 +26,26 @@ public interface Constants {
     }
 
     interface FORMS {
-        String VMMC_REGISTRATION = "vmmc_confirmation";
+        String VMMC_REGISTRATION = "vmmc_enrollment";
         String VMMC_FOLLOW_UP_VISIT = "vmmc_followup_visit";
         String VMMC_NOTIFIABLE = "vmmc_notifiable_adverse_events";
 
     }
 
     interface VMMC_FOLLOWUP_FORMS {
-        String MEDICAL_HISTORY = "vmmc_medical_history";
-        String PHYSICAL_EXAMINATION = "vmmc_physical_examination";
-        String HTS = "vmmc_hts";
-        String CONSENT_FORM = "vmmc_consent_form";
-        String MC_PROCEDURE = "vmmc_mc_procedure";
+        String MEDICAL_HISTORY = "vmmc_service_medical_history";
+        String PHYSICAL_EXAMINATION = "vmmc_service_physical_examination";
+        String HTS = "vmmc_service_hts";
+        String CONSENT_FORM = "vmmc_procedure_consent_form";
+        String MC_PROCEDURE = "vmmc_procedure_mc_procedure";
         String POST_OP = "vmmc_post_op";
         String DISCHARGE = "vmmc_discharge";
-        String FIRST_VITAL_SIGN = "vmmc_first_vital";
-        String SECOND_VITAL_SIGN = "vmmc_second_vital";
+        String FIRST_VITAL_SIGN = "vmmc_post_op_first_vital";
+        String SECOND_VITAL_SIGN = "vmmc_post_op_second_vital";
     }
 
     interface TABLES {
-        String VMMC_CONFIRMATION = "ec_vmmc_confirmation";
+        String VMMC_CONFIRMATION = "ec_vmmc_enrollment";
         String VMMC_FOLLOW_UP = "ec_vmmc_follow_up_visit";
         String VMMC_NOTIFIABLE_EVENT = "ec_vmmc_notifiable_ae";
         String VMMC_PROCEDURE = "ec_vmmc_procedure";
@@ -70,7 +70,7 @@ public interface Constants {
     }
 
     interface CONFIGURATION {
-        String VMMC_CONFIRMATION = "vmmc_confirmation";
+        String VMMC_CONFIRMATION = "vmmc_enrollment";
     }
 
     interface VMMC_MEMBER_OBJECT {

@@ -9,7 +9,7 @@
             "field": "eventType",
             "field_value": "Vmmc Confirmation",
             "creates_case": [
-              "ec_vmmc_confirmation"
+              "ec_vmmc_enrollment"
             ]
           }
         ]

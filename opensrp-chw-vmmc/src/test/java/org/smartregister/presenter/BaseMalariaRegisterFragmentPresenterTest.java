@@ -60,8 +60,8 @@ public class BaseVmmcRegisterFragmentPresenterTest {
     public void initializeQueries() {
         Set<View> visibleColumns = new TreeSet<>();
         baseVmmcRegisterFragmentPresenter.initializeQueries(null);
-        Mockito.doNothing().when(view).initializeQueryParams("ec_vmmc_confirmation", null, null);
-        Mockito.verify(view).initializeQueryParams("ec_vmmc_confirmation", null, null);
+        Mockito.doNothing().when(view).initializeQueryParams("ec_vmmc_enrollment", null, null);
+        Mockito.verify(view).initializeQueryParams("ec_vmmc_enrollment", null, null);
         Mockito.verify(view).initializeAdapter(visibleColumns);
         Mockito.verify(view).countExecute();
         Mockito.verify(view).filterandSortInInitializeQueries();
