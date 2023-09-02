@@ -214,7 +214,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         Visit procedureVisit = null;
         Visit dischargeVisit = null;
         Visit followUpVisit = null;
-        Visit notifiableVisit = null;
+//        Visit notifiableVisit = null;
 
         getGentialExaminationValue = VmmcDao.getGentialExamination(memberObject.getBaseEntityId());
         getDiagnosedValue = VmmcDao.getDiagnosed(memberObject.getBaseEntityId());
@@ -231,101 +231,88 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 
         try{
             confirmationVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_SERVICES);
+            procedureVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_PROCEDURE);
+            dischargeVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_DISCHARGE);
+            followUpVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_FOLLOW_UP_VISIT);
 
-            VmmcVisitsUtil.manualProcessVisit(confirmationVisit);
-
-                if (!(getGentialExaminationValue.equalsIgnoreCase("None") &&
-                        (getDiagnosedValue.equalsIgnoreCase("None") || (getDiagnosedValue.equalsIgnoreCase("HIV") && Integer.parseInt(getViralLoad) < 1000)
-                                || ((getTypeForBloodGlucoseTest.equalsIgnoreCase("Random Blood Glucose Test (rbg)") &&
-                                (Integer.parseInt(getBloodGlucoseTest) < 6.9)) || (getTypeForBloodGlucoseTest.equalsIgnoreCase("Fasting Blood Glucose Test") &&
-                                (Integer.parseInt(getBloodGlucoseTest) < 5.9 || Integer.parseInt(getBloodGlucoseTest) > 3.9)))) &&
-                        getKnownAllergiesValue.equalsIgnoreCase("None") &&
-                        !getAnyComplicationsPreviousSurgicalProcedureValue.equalsIgnoreCase("yes") &&
-                        (getHivTestResultValue.equalsIgnoreCase("negative") || getHivTestResultValue.equalsIgnoreCase("")) &&
-                        getSymptomsHematologicalDiseaseValue.equalsIgnoreCase("None") &&
-                        getAnyComplaintsValue.equalsIgnoreCase("None"))
-                ) {
-                    findViewById(R.id.family_vmmc_head).setVisibility(View.VISIBLE);
-                } else {
-                    findViewById(R.id.family_vmmc_head).setVisibility(View.GONE);
-                }
-
-
-            if (getGentialExaminationValue.equalsIgnoreCase("None") &&
-                    (getDiagnosedValue.equalsIgnoreCase("None") || (getDiagnosedValue.equalsIgnoreCase("HIV") && Integer.parseInt(getViralLoad) < 1000)
-                    || ((getTypeForBloodGlucoseTest.equalsIgnoreCase("Random Blood Glucose Test (rbg)") &&
-                            (Integer.parseInt(getBloodGlucoseTest) < 6.9)) || (getTypeForBloodGlucoseTest.equalsIgnoreCase("Fasting Blood Glucose Test") &&
-                            (Integer.parseInt(getBloodGlucoseTest) < 5.9 || Integer.parseInt(getBloodGlucoseTest) > 3.9)))) &&
-                    getKnownAllergiesValue.equalsIgnoreCase("None") &&
-                    !getAnyComplicationsPreviousSurgicalProcedureValue.equalsIgnoreCase("yes") &&
-                    (getHivTestResultValue.equalsIgnoreCase("negative") || getHivTestResultValue.equalsIgnoreCase("")) &&
-                    getSymptomsHematologicalDiseaseValue.equalsIgnoreCase("None") &&
-                    getAnyComplaintsValue.equalsIgnoreCase("None")
-            ){
-                textViewRecordVmmc.setVisibility(View.GONE);
-                textViewProcedureVmmc.setVisibility(View.VISIBLE);
-                textViewDischargeVmmc.setVisibility(View.GONE);
-                textViewNotifiableVmmc.setVisibility(View.GONE);
-                rlLastVisit.setVisibility(View.VISIBLE);
+            if(confirmationVisit != null){
+                VmmcVisitsUtil.manualProcessVisit(confirmationVisit);
+                processVmmcService();
             }
 
-            else {
-                //Snackbar.make(textViewDischargeVmmc,"ERROR" + getDiagnosedValue,Snackbar.LENGTH_LONG).show();
+            if(procedureVisit != null){
+                VmmcVisitsUtil.manualProcessVisit(procedureVisit);
+                processVmmcProcedure(procedureVisit);
+            }
+
+            if(dischargeVisit != null){
+                VmmcVisitsUtil.manualProcessVisit(dischargeVisit);
+                processVmmcDischarge();
+            }
+
+            if(followUpVisit != null){
+                VmmcVisitsUtil.manualProcessVisit(followUpVisit);
+                processVmmcDischarge();
             }
 
         }catch (Exception e){
             Log.d("vmmc-error-conf", e.getMessage());
         }
+    }
 
-        try {
-            procedureVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_PROCEDURE);
+    private void processVmmcDischarge() {
 
-            VmmcVisitsUtil.manualProcessVisit(procedureVisit);
+        if (getDischargeCondition.equalsIgnoreCase("Satisfactory") || getDischargeCondition.equalsIgnoreCase("needs_followup")){
+            textViewRecordVmmc.setVisibility(View.GONE);
+            textViewProcedureVmmc.setVisibility(View.GONE);
+            textViewDischargeVmmc.setVisibility(View.GONE);
+            textViewFollowUpVmmc.setVisibility(View.VISIBLE);
+        }
+    }
 
-            if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE) && getMcConducted.equalsIgnoreCase("Yes"))
-            {
-                textViewRecordVmmc.setVisibility(View.GONE);
-                textViewProcedureVmmc.setVisibility(View.GONE);
-                textViewDischargeVmmc.setVisibility(View.VISIBLE);
-            }
+    private void processVmmcProcedure(Visit procedureVisit) {
+        if (procedureVisit.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_PROCEDURE) && getMcConducted.equalsIgnoreCase("Yes"))
+        {
+            textViewRecordVmmc.setVisibility(View.GONE);
+            textViewProcedureVmmc.setVisibility(View.GONE);
+            textViewDischargeVmmc.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void processVmmcService() {
+        if (!(getGentialExaminationValue.equalsIgnoreCase("None") &&
+                (getDiagnosedValue.equalsIgnoreCase("None") || (getDiagnosedValue.equalsIgnoreCase("HIV") && Integer.parseInt(getViralLoad) < 1000)
+                        || ((getTypeForBloodGlucoseTest.equalsIgnoreCase("Random Blood Glucose Test (rbg)") &&
+                        (Integer.parseInt(getBloodGlucoseTest) < 6.9)) || (getTypeForBloodGlucoseTest.equalsIgnoreCase("Fasting Blood Glucose Test") &&
+                        (Integer.parseInt(getBloodGlucoseTest) < 5.9 || Integer.parseInt(getBloodGlucoseTest) > 3.9)))) &&
+                getKnownAllergiesValue.equalsIgnoreCase("None") &&
+                !getAnyComplicationsPreviousSurgicalProcedureValue.equalsIgnoreCase("yes") &&
+                (getHivTestResultValue.equalsIgnoreCase("negative") || getHivTestResultValue.equalsIgnoreCase("")) &&
+                getSymptomsHematologicalDiseaseValue.equalsIgnoreCase("None") &&
+                getAnyComplaintsValue.equalsIgnoreCase("None"))
+        ) {
+            findViewById(R.id.family_vmmc_head).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.family_vmmc_head).setVisibility(View.GONE);
         }
 
-        catch (Exception e){
-            Log.d("vmmc-error-proc", e.getMessage());
-        }
 
-        try {
-            dischargeVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_DISCHARGE);
-
-            VmmcVisitsUtil.manualProcessVisit(dischargeVisit);
-
-
-            if (getDischargeCondition.equalsIgnoreCase("Satisfactory") || getDischargeCondition.equalsIgnoreCase("needs_followup")){
-                textViewRecordVmmc.setVisibility(View.GONE);
-                textViewProcedureVmmc.setVisibility(View.GONE);
-                textViewDischargeVmmc.setVisibility(View.GONE);
-                textViewFollowUpVmmc.setVisibility(View.VISIBLE);
-            }
-        }
-
-        catch (Exception e){
-            Log.d("vmmc-error-proc", e.getMessage());
-        }
-
-        try {
-            followUpVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_FOLLOW_UP_VISIT);
-            VmmcVisitsUtil.manualProcessVisit(followUpVisit);
-        }
-        catch (Exception e){
-            Log.d("vmmc-error-proc", e.getMessage());
-        }
-
-        try {
-            notifiableVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_NOTIFIABLE_EVENTS);
-            VmmcVisitsUtil.manualProcessVisit(notifiableVisit);
-        }
-        catch (Exception e){
-            Log.d("vmmc-error-proc", e.getMessage());
+        if (getGentialExaminationValue.equalsIgnoreCase("None") &&
+                (getDiagnosedValue.equalsIgnoreCase("None") || (getDiagnosedValue.equalsIgnoreCase("HIV") && Integer.parseInt(getViralLoad) < 1000)
+                        || ((getTypeForBloodGlucoseTest.equalsIgnoreCase("Random Blood Glucose Test (rbg)") &&
+                        (Integer.parseInt(getBloodGlucoseTest) < 6.9)) || (getTypeForBloodGlucoseTest.equalsIgnoreCase("Fasting Blood Glucose Test") &&
+                        (Integer.parseInt(getBloodGlucoseTest) < 5.9 || Integer.parseInt(getBloodGlucoseTest) > 3.9)))) &&
+                getKnownAllergiesValue.equalsIgnoreCase("None") &&
+                !getAnyComplicationsPreviousSurgicalProcedureValue.equalsIgnoreCase("yes") &&
+                (getHivTestResultValue.equalsIgnoreCase("negative") || getHivTestResultValue.equalsIgnoreCase("")) &&
+                getSymptomsHematologicalDiseaseValue.equalsIgnoreCase("None") &&
+                getAnyComplaintsValue.equalsIgnoreCase("None")
+        ){
+            textViewRecordVmmc.setVisibility(View.GONE);
+            textViewProcedureVmmc.setVisibility(View.VISIBLE);
+            textViewDischargeVmmc.setVisibility(View.GONE);
+            textViewNotifiableVmmc.setVisibility(View.GONE);
+            rlLastVisit.setVisibility(View.VISIBLE);
         }
     }
 
@@ -526,5 +513,15 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             profilePresenter.saveForm(data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON));
             finish();
         }
+    }
+
+    protected boolean isVisitOnProgress() {
+        Visit dischargeVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_DISCHARGE);
+
+        if (dischargeVisit != null && !dischargeVisit.getProcessed()) {
+            return true;
+        }
+
+        return false;
     }
 }
