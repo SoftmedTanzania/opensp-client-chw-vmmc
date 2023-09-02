@@ -216,23 +216,23 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         Visit followUpVisit = null;
         Visit notifiableVisit = null;
 
+        getGentialExaminationValue = VmmcDao.getGentialExamination(memberObject.getBaseEntityId());
+        getDiagnosedValue = VmmcDao.getDiagnosed(memberObject.getBaseEntityId());
+        getAnyComplicationsPreviousSurgicalProcedureValue = VmmcDao.getAnyComplicationsPreviousSurgicalProcedure(memberObject.getBaseEntityId());
+        getHivTestResultValue = VmmcDao.getHivTestResult(memberObject.getBaseEntityId());
+        getKnownAllergiesValue = VmmcDao.getKnownAllergiesValue(memberObject.getBaseEntityId());
+        getSymptomsHematologicalDiseaseValue = VmmcDao.getSymptomsHematologicalDiseaseValue(memberObject.getBaseEntityId());
+        getAnyComplaintsValue = VmmcDao.getAnyComplaints(memberObject.getBaseEntityId());
+        getViralLoad = VmmcDao.getViralLoad(memberObject.getBaseEntityId());
+        getTypeForBloodGlucoseTest = VmmcDao.getTypeForBloodGlucoseTest(memberObject.getBaseEntityId());
+        getBloodGlucoseTest = VmmcDao.getBloodGlucoseTest(memberObject.getBaseEntityId());
+        getMcConducted = VmmcDao.getMcConducted(memberObject.getBaseEntityId());
+        getDischargeCondition = VmmcDao.getDischargeCondition(memberObject.getBaseEntityId());
 
         try{
             confirmationVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_SERVICES);
 
             VmmcVisitsUtil.manualProcessVisit(confirmationVisit);
-
-            getGentialExaminationValue = VmmcDao.getGentialExamination(memberObject.getBaseEntityId());
-            getDiagnosedValue = VmmcDao.getDiagnosed(memberObject.getBaseEntityId());
-            getAnyComplicationsPreviousSurgicalProcedureValue = VmmcDao.getAnyComplicationsPreviousSurgicalProcedure(memberObject.getBaseEntityId());
-            getHivTestResultValue = VmmcDao.getHivTestResult(memberObject.getBaseEntityId());
-            getKnownAllergiesValue = VmmcDao.getKnownAllergiesValue(memberObject.getBaseEntityId());
-            getSymptomsHematologicalDiseaseValue = VmmcDao.getSymptomsHematologicalDiseaseValue(memberObject.getBaseEntityId());
-            getAnyComplaintsValue = VmmcDao.getAnyComplaints(memberObject.getBaseEntityId());
-            getViralLoad = VmmcDao.getViralLoad(memberObject.getBaseEntityId());
-            getTypeForBloodGlucoseTest = VmmcDao.getTypeForBloodGlucoseTest(memberObject.getBaseEntityId());
-            getBloodGlucoseTest = VmmcDao.getBloodGlucoseTest(memberObject.getBaseEntityId());
-            getMcConducted = VmmcDao.getMcConducted(memberObject.getBaseEntityId());
 
                 if (!(getGentialExaminationValue.equalsIgnoreCase("None") &&
                         (getDiagnosedValue.equalsIgnoreCase("None") || (getDiagnosedValue.equalsIgnoreCase("HIV") && Integer.parseInt(getViralLoad) < 1000)
@@ -270,8 +270,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             }
 
             else {
-//                Snackbar.make(textViewDischargeVmmc,"ERROR" + getDiagnosedValue,Snackbar.LENGTH_LONG).show();
-
+                //Snackbar.make(textViewDischargeVmmc,"ERROR" + getDiagnosedValue,Snackbar.LENGTH_LONG).show();
             }
 
         }catch (Exception e){
@@ -300,7 +299,6 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 
             VmmcVisitsUtil.manualProcessVisit(dischargeVisit);
 
-            getDischargeCondition = VmmcDao.getDischargeCondition(memberObject.getBaseEntityId());
 
             if (getDischargeCondition.equalsIgnoreCase("Satisfactory") || getDischargeCondition.equalsIgnoreCase("needs_followup")){
                 textViewRecordVmmc.setVisibility(View.GONE);
@@ -421,9 +419,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         textViewLocation.setText(memberObject.getAddress());
         textViewUniqueID.setText(memberObject.getUniqueId());
 
-//        if (StringUtils.isNotBlank(memberObject.getFamilyHead()) && memberObject.getFamilyHead().equals(memberObject.getBaseEntityId())) {
-//            findViewById(R.id.family_vmmc_head).setVisibility(View.GONE);
-//        }
+
         if (StringUtils.isNotBlank(memberObject.getPrimaryCareGiver()) && memberObject.getPrimaryCareGiver().equals(memberObject.getBaseEntityId())) {
             findViewById(R.id.primary_vmmc_caregiver).setVisibility(View.GONE);
         }
