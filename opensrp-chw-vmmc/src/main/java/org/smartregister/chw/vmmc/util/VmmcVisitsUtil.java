@@ -39,7 +39,7 @@ public class VmmcVisitsUtil extends VisitUtils {
             Date updatedAtDate = new Date(v.getUpdatedAt().getTime());
             int daysDiff = TimeUtils.getElapsedDays(updatedAtDate);
             if (daysDiff > 1) {
-                if (v.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_FOLLOW_UP_VISIT) && getPrEPVisitStatus(v).equals(Complete)) {
+                if (v.getVisitType().equalsIgnoreCase(Constants.EVENT_TYPE.VMMC_FOLLOW_UP_VISIT) && getVmmcVisitStatus(v).equals(Complete)) {
                     prepFollowupVisit.add(v);
                 }
             }
@@ -64,18 +64,15 @@ public class VmmcVisitsUtil extends VisitUtils {
         NCUtil.startClientProcessing();
     }
 
-    public static String getPrEPVisitStatus(Visit lastVisit) {
+    public static String getVmmcVisitStatus(Visit lastVisit) {
         HashMap<String, Boolean> completionObject = new HashMap<>();
         try {
             JSONObject jsonObject = new JSONObject(lastVisit.getJson());
             JSONArray obs = jsonObject.getJSONArray("obs");
 
-            completionObject.put("is-visit_type-done", computeCompletionStatus(obs, "place"));
-            completionObject.put("is-prep_screening-done", computeCompletionStatus(obs, "diabetes"));
-            if (checkIfShouldInitiateToPrEP(obs)) {
-                completionObject.put("is-prep_initiation-done", computeCompletionStatus(obs, "prep_status"));
-                completionObject.put("is-other_services-done", computeCompletionStatus(obs, "health_edu_sti_provided"));
-            }
+            completionObject.put("isFirstVitalDone", computeCompletionStatusForAction(obs, "first_vital_completion_status"));
+            completionObject.put("isSecondVitalDone", computeCompletionStatusForAction(obs, "second_vital_completion_status"));
+            completionObject.put("isDischargeConditionDone", computeCompletionStatus(obs, "discharge_condition"));
 
 
         } catch (Exception e) {
@@ -103,6 +100,18 @@ public class VmmcVisitsUtil extends VisitUtils {
             JSONObject checkObj = obs.getJSONObject(i);
             if (checkObj.getString("fieldCode").equalsIgnoreCase(checkString)) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean computeCompletionStatusForAction(JSONArray obs, String checkString) throws JSONException {
+        int size = obs.length();
+        for (int i = 0; i < size; i++) {
+            JSONObject checkObj = obs.getJSONObject(i);
+            if (checkObj.getString("fieldCode").equalsIgnoreCase(checkString)) {
+                String status = checkObj.getJSONArray("values").getString(0);
+                return status.equalsIgnoreCase("complete");
             }
         }
         return false;

@@ -17,6 +17,11 @@
     <string name="vmmc_discharge">Post Op Discharge</string>
     <string name="vmmc_followup">VMMC Follow up</string>
     <string name="vmmc_notifiable">Notifiable adverse events</string>
+    <string name="manual_process_visit">Process Visit</string>
+    <string name="continue_visit">Continue</string>
+    <string name="vmmc_visit_in_progress">Visit In Progress</string>
+    <string name="vmmc_visit_conducted">VMMC Visit Conducted</string>
+
 
     <string name="optional">Optional</string>
     <string name="error_unable_save_visit">Unable to save visit</string>

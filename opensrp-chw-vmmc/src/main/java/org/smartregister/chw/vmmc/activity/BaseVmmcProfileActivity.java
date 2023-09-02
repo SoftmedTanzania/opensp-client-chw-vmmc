@@ -68,6 +68,8 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     protected TextView textViewDischargeVmmc;
     protected TextView textViewFollowUpVmmc;
     protected TextView textViewRecordAnc;
+    protected TextView textViewContinueVmmc;
+    protected TextView manualProcessVisit;
     protected TextView textview_positive_date;
     protected View view_last_visit_row;
     protected View view_most_due_overdue_row;
@@ -77,6 +79,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
     protected RelativeLayout rlUpcomingServices;
     protected RelativeLayout rlFamilyServicesDue;
     protected RelativeLayout visitStatus;
+    protected RelativeLayout visitInProgress;
     protected ImageView imageViewCross;
     protected TextView textViewUndo;
     protected RelativeLayout rlVmmcPositiveDate;
@@ -154,6 +157,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         textViewVisitDone = findViewById(R.id.textview_visit_done);
         visitStatus = findViewById(R.id.record_visit_not_done_bar);
         visitDone = findViewById(R.id.visit_done_bar);
+        visitInProgress = findViewById(R.id.record_visit_in_progress);
         recordVisits = findViewById(R.id.record_visits);
         progressBar = findViewById(R.id.progress_bar);
         textViewRecordAncNotDone = findViewById(R.id.textview_record_anc_not_done);
@@ -163,6 +167,8 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         textViewNotifiableVmmc = findViewById(R.id.textview_notifiable_vmmc);
         textViewDischargeVmmc = findViewById(R.id.textview_discharge_vmmc);
         textViewFollowUpVmmc = findViewById(R.id.textview_followup_vmmc);
+        textViewContinueVmmc = findViewById(R.id.textview_continue);
+        manualProcessVisit = findViewById(R.id.textview_manual_process);
         textViewRecordAnc = findViewById(R.id.textview_record_anc);
         textViewUndo = findViewById(R.id.textview_undo);
         imageView = findViewById(R.id.imageview_profile);
@@ -178,6 +184,8 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         textViewNotifiableVmmc.setOnClickListener(this);
         textViewDischargeVmmc.setOnClickListener(this);
         textViewFollowUpVmmc.setOnClickListener(this);
+        textViewContinueVmmc.setOnClickListener(this);
+        manualProcessVisit.setOnClickListener(this);
         textViewRecordAnc.setOnClickListener(this);
         textViewUndo.setOnClickListener(this);
 
@@ -245,8 +253,29 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
                 processVmmcProcedure(procedureVisit);
             }
 
+            if (isVisitOnProgress()) {
+                textViewDischargeVmmc.setVisibility(View.GONE);
+                visitInProgress.setVisibility(View.VISIBLE);
+            } else {
+                textViewDischargeVmmc.setVisibility(View.VISIBLE);
+                visitInProgress.setVisibility(View.GONE);
+            }
+
             if(dischargeVisit != null){
-                VmmcVisitsUtil.manualProcessVisit(dischargeVisit);
+                if (dischargeVisit != null && !dischargeVisit.getProcessed() && VmmcVisitsUtil.getVmmcVisitStatus(dischargeVisit).equalsIgnoreCase(VmmcVisitsUtil.Complete)) {
+                    manualProcessVisit.setVisibility(View.VISIBLE);
+                    manualProcessVisit.setOnClickListener(view -> {
+                        try {
+                            VmmcVisitsUtil.manualProcessVisit(dischargeVisit);
+                            displayToast(R.string.vmmc_visit_conducted);
+                            setupViews();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } else {
+                    manualProcessVisit.setVisibility(View.GONE);
+                }
                 processVmmcDischarge();
             }
 
