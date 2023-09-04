@@ -7,7 +7,7 @@
         "fields": [
           {
             "field": "eventType",
-            "field_value": "Vmmc Confirmation",
+            "field_value": "Vmmc Enrollment",
             "creates_case": [
               "ec_vmmc_enrollment"
             ]

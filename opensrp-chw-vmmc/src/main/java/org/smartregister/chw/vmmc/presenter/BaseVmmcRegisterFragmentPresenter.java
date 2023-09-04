@@ -1,5 +1,7 @@
 package org.smartregister.chw.vmmc.presenter;
 
+import static org.apache.commons.lang3.StringUtils.trim;
+
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.vmmc.contract.VmmcRegisterFragmentContract;
 import org.smartregister.chw.vmmc.util.Constants;
@@ -11,8 +13,6 @@ import org.smartregister.configurableviews.model.ViewConfiguration;
 import java.lang.ref.WeakReference;
 import java.util.Set;
 import java.util.TreeSet;
-
-import static org.apache.commons.lang3.StringUtils.trim;
 
 public class BaseVmmcRegisterFragmentPresenter implements VmmcRegisterFragmentContract.Presenter {
 
@@ -34,12 +34,12 @@ public class BaseVmmcRegisterFragmentPresenter implements VmmcRegisterFragmentCo
 
     @Override
     public String getMainCondition() {
-        return "";
+        return " "+getMainTable()+".is_closed = 0 ";
     }
 
     @Override
     public String getDefaultSortQuery() {
-        return Constants.TABLES.VMMC_CONFIRMATION + "." + DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ";
+        return getMainTable() + "." + DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ";
     }
 
     @Override
@@ -61,7 +61,7 @@ public class BaseVmmcRegisterFragmentPresenter implements VmmcRegisterFragmentCo
 
     @Override
     public void initializeQueries(String mainCondition) {
-        String tableName = Constants.TABLES.VMMC_CONFIRMATION;
+        String tableName = getMainTable();
         mainCondition = trim(getMainCondition()).equals("") ? mainCondition : getMainCondition();
         String countSelect = model.countSelect(tableName, mainCondition);
         String mainSelect = model.mainSelect(tableName, mainCondition);
@@ -97,7 +97,7 @@ public class BaseVmmcRegisterFragmentPresenter implements VmmcRegisterFragmentCo
 
     @Override
     public String getMainTable() {
-        return Constants.TABLES.VMMC_CONFIRMATION;
+        return Constants.TABLES.VMMC_ENROLLMENT;
     }
 
     @Override

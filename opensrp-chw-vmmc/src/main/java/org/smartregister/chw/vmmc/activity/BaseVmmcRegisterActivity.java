@@ -109,7 +109,7 @@ public class BaseVmmcRegisterActivity extends BaseRegisterActivity implements Vm
 
     @Override
     public List<String> getViewIdentifiers() {
-        return Arrays.asList(Constants.CONFIGURATION.VMMC_CONFIRMATION);
+        return Arrays.asList(Constants.CONFIGURATION.VMMC_ENROLLMENT);
     }
 
     /**

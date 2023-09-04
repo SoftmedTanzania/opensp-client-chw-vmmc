@@ -12,7 +12,6 @@ import org.smartregister.chw.vmmc.domain.Visit;
 import org.smartregister.chw.vmmc.domain.VisitDetail;
 import org.smartregister.chw.vmmc.repository.VisitDetailsRepository;
 import org.smartregister.chw.vmmc.repository.VisitRepository;
-import org.smartregister.chw.vmmc.domain.Visit;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.repository.AllSharedPreferences;
 
@@ -28,7 +27,7 @@ import java.util.UUID;
 public class VisitUtils {
     public static List<Visit> getVisits(String memberID, String... eventTypes) {
 
-        List<Visit> visits = (eventTypes != null && eventTypes.length > 0) ? getVisitsOnly(memberID, eventTypes[0]) : getVisitsOnly(memberID, Constants.EVENT_TYPE.VMMC_CONFIRMATION);
+        List<Visit> visits = (eventTypes != null && eventTypes.length > 0) ? getVisitsOnly(memberID, eventTypes[0]) : getVisitsOnly(memberID, Constants.EVENT_TYPE.VMMC_ENROLLMENT);
 
         return visits;
     }

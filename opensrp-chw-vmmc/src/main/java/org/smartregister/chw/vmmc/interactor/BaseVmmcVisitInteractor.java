@@ -69,7 +69,7 @@ public class BaseVmmcVisitInteractor implements BaseVmmcVisitContract.Interactor
         if(StringUtils.isNotBlank(visitType)){
             return visitType;
         }
-        return Constants.EVENT_TYPE.VMMC_CONFIRMATION;
+        return Constants.EVENT_TYPE.VMMC_ENROLLMENT;
     }
 
     @Override
@@ -375,10 +375,10 @@ public class BaseVmmcVisitInteractor implements BaseVmmcVisitContract.Interactor
     }
 
     protected String getEncounterType() {
-        return Constants.EVENT_TYPE.VMMC_CONFIRMATION;
+        return Constants.EVENT_TYPE.VMMC_ENROLLMENT;
     }
 
     protected String getTableName() {
-        return Constants.TABLES.VMMC_CONFIRMATION;
+        return Constants.TABLES.VMMC_ENROLLMENT;
     }
 }

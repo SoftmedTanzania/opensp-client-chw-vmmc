@@ -90,8 +90,8 @@ public class VmmcJsonFormUtils extends org.smartregister.util.JsonFormUtils {
         String entityId = getString(jsonForm, ENTITY_ID);
         String encounter_type = jsonForm.optString(Constants.JSON_FORM_EXTRA.ENCOUNTER_TYPE);
 
-        if (Constants.EVENT_TYPE.VMMC_CONFIRMATION.equals(encounter_type)) {
-            encounter_type = Constants.TABLES.VMMC_CONFIRMATION;
+        if (Constants.EVENT_TYPE.VMMC_ENROLLMENT.equals(encounter_type)) {
+            encounter_type = Constants.TABLES.VMMC_ENROLLMENT;
         } else if (Constants.EVENT_TYPE.VMMC_PROCEDURE.equals(encounter_type)) {
             encounter_type = Constants.TABLES.VMMC_PROCEDURE;
         }

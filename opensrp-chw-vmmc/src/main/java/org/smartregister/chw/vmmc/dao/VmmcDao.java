@@ -36,6 +36,32 @@ public class VmmcDao extends AbstractDao {
         return "";
     }
 
+    public static String getSystolic(String baseEntityId) {
+        String sql = "SELECT systolic FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "systolic");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
+    public static String getDiastolic(String baseEntityId) {
+        String sql = "SELECT diastolic FROM ec_vmmc_services p " +
+                " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
+
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "diastolic");
+
+        List<String> res = readData(sql, dataMap);
+        if (res != null && res.size() != 0 && res.get(0) != null) {
+            return res.get(0);
+        }
+        return "";
+    }
+
     public static String getAnyComplaints(String baseEntityId) {
         String sql = "SELECT any_complaints FROM ec_vmmc_services p " +
                 " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
@@ -50,10 +76,10 @@ public class VmmcDao extends AbstractDao {
     }
 
     public static String getDiagnosed(String baseEntityId) {
-        String sql = "SELECT client_diagnosed FROM ec_vmmc_services p " +
+        String sql = "SELECT is_client_diagnosed_with_any FROM ec_vmmc_services p " +
                 " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
 
-        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "client_diagnosed");
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "is_client_diagnosed_with_any");
 
         List<String> res = readData(sql, dataMap);
         if (res != null && res.size() != 0 && res.get(0) != null) {
@@ -76,10 +102,10 @@ public class VmmcDao extends AbstractDao {
     }
 
     public static String getSymptomsHematologicalDiseaseValue(String baseEntityId) {
-        String sql = "SELECT hematological_disease FROM ec_vmmc_services p " +
+        String sql = "SELECT any_hematological_disease_symptoms FROM ec_vmmc_services p " +
                 " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
 
-        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "hematological_disease");
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "any_hematological_disease_symptoms");
 
         List<String> res = readData(sql, dataMap);
         if (res != null && res.size() != 0 && res.get(0) != null) {

@@ -48,12 +48,12 @@ public class BaseVmmcRegisterFragmentPresenterTest {
 
     @Test
     public void getDefaultSortQuery() {
-        Assert.assertEquals(Constants.TABLES.VMMC_CONFIRMATION + "." + DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ", baseVmmcRegisterFragmentPresenter.getDefaultSortQuery());
+        Assert.assertEquals(Constants.TABLES.VMMC_ENROLLMENT + "." + DBConstants.KEY.LAST_INTERACTED_WITH + " DESC ", baseVmmcRegisterFragmentPresenter.getDefaultSortQuery());
     }
 
     @Test
     public void getMainTable() {
-        Assert.assertEquals(Constants.TABLES.VMMC_CONFIRMATION, baseVmmcRegisterFragmentPresenter.getMainTable());
+        Assert.assertEquals(Constants.TABLES.VMMC_ENROLLMENT, baseVmmcRegisterFragmentPresenter.getMainTable());
     }
 
     @Test
