@@ -81,6 +81,38 @@ public class VmmcVisitsUtil extends VisitUtils {
         return getActionStatus(completionObject);
     }
 
+    public static String getVmmcServiceVisitStatus(Visit lastVisit) {
+        HashMap<String, Boolean> completionObject = new HashMap<>();
+        try {
+            JSONObject jsonObject = new JSONObject(lastVisit.getJson());
+            JSONArray obs = jsonObject.getJSONArray("obs");
+
+            completionObject.put("isMedicalHistoryDone", computeCompletionStatusForAction(obs, "medical_history_completion_status"));
+            completionObject.put("isPhysicalExamDone", computeCompletionStatusForAction(obs, "physical_exam_completion_status"));
+            completionObject.put("isHtsDone", computeCompletionStatusForAction(obs, "hts_completion_status"));
+
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return getActionStatus(completionObject);
+    }
+
+    public static String getVmmcProcedureVisitStatus(Visit lastVisit) {
+        HashMap<String, Boolean> completionObject = new HashMap<>();
+        try {
+            JSONObject jsonObject = new JSONObject(lastVisit.getJson());
+            JSONArray obs = jsonObject.getJSONArray("obs");
+
+            completionObject.put("isClientConsentForMcProcedureDone", computeCompletionStatus(obs, "client_consent_for_mc_procedure"));
+            completionObject.put("isMcProcedureDone", computeCompletionStatusForAction(obs, "mc_procedure_completion_status"));
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return getActionStatus(completionObject);
+    }
+
 
     public static String getActionStatus(Map<String, Boolean> checkObject) {
         for (Map.Entry<String, Boolean> entry : checkObject.entrySet()) {

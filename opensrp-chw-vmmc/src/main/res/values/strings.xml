@@ -20,6 +20,8 @@
     <string name="manual_process_visit">Process Visit</string>
     <string name="continue_visit">Continue</string>
     <string name="vmmc_visit_in_progress">Visit In Progress</string>
+    <string name="vmmc_service_visit_in_progress">Vmmc Service In Progress</string>
+    <string name="vmmc_procedure_visit_in_progress">Vmmc Procedure In Progress</string>
     <string name="vmmc_visit_conducted">VMMC Visit Conducted</string>
 
 

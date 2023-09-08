@@ -43,7 +43,6 @@ public class BaseVmmcRegisterActivity extends BaseRegisterActivity implements Vm
 
     protected String BASE_ENTITY_ID;
     protected String FAMILY_BASE_ENTITY_ID;
-    protected String ACTION;
     protected String FORM_NAME;
 
     @Override
@@ -51,7 +50,6 @@ public class BaseVmmcRegisterActivity extends BaseRegisterActivity implements Vm
         super.onCreate(savedInstanceState);
         BASE_ENTITY_ID = getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID);
         FAMILY_BASE_ENTITY_ID = getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.FAMILY_BASE_ENTITY_ID);
-        ACTION = getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.ACTION);
         FORM_NAME = getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.VMMC_FORM_NAME);
         onStartActivityWithAction();
     }
@@ -60,7 +58,7 @@ public class BaseVmmcRegisterActivity extends BaseRegisterActivity implements Vm
      * Process a payload when an activity is started with an action
      */
     protected void onStartActivityWithAction() {
-        if (FORM_NAME != null && ACTION != null) {
+        if (FORM_NAME != null) {
             startFormActivity(FORM_NAME, BASE_ENTITY_ID, null);
         }
     }

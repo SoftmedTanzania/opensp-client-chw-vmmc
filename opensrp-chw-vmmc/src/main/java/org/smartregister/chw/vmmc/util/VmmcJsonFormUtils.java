@@ -188,6 +188,14 @@ public class VmmcJsonFormUtils extends org.smartregister.util.JsonFormUtils {
     }
 
 
+    public static String getValue(VisitDetail visitDetail) {
+        String humanReadable = visitDetail.getHumanReadable();
+        if (StringUtils.isNotBlank(humanReadable))
+            return humanReadable;
+
+        return visitDetail.getDetails();
+    }
+
     public static void populateForm(@Nullable JSONObject jsonObject, Map<String, @Nullable List<VisitDetail>> details) {
         if (details == null || jsonObject == null) return;
         try {
@@ -226,14 +234,6 @@ public class VmmcJsonFormUtils extends org.smartregister.util.JsonFormUtils {
         } catch (Exception e) {
             Timber.e(e);
         }
-    }
-
-    public static String getValue(VisitDetail visitDetail) {
-        String humanReadable = visitDetail.getHumanReadable();
-        if (StringUtils.isNotBlank(humanReadable))
-            return humanReadable;
-
-        return visitDetail.getDetails();
     }
 
     public static JSONArray getValue(JSONObject jo, List<VisitDetail> visitDetails) throws JSONException {
@@ -277,6 +277,52 @@ public class VmmcJsonFormUtils extends org.smartregister.util.JsonFormUtils {
             }
         }
         return values;
+    }
+
+    /**
+     * Returns a value from a native forms checkbox field and returns an comma separated string
+     *
+     * @param jsonObject native forms jsonObject
+     * @param key        field object key
+     * @return value
+     */
+    public static String getCheckBoxValue(JSONObject jsonObject, String key) {
+        try {
+            JSONArray jsonArray = jsonObject.getJSONObject(JsonFormConstants.STEP1).getJSONArray(JsonFormConstants.FIELDS);
+
+            JSONObject jo = null;
+            int x = 0;
+            while (jsonArray.length() > x) {
+                jo = jsonArray.getJSONObject(x);
+                if (jo.getString(JsonFormConstants.KEY).equalsIgnoreCase(key)) {
+                    break;
+                }
+                x++;
+            }
+
+            StringBuilder resBuilder = new StringBuilder();
+            if (jo != null) {
+                // read all the checkboxes
+                JSONArray jaOptions = jo.getJSONArray(JsonFormConstants.OPTIONS_FIELD_NAME);
+                int optionSize = jaOptions.length();
+                int y = 0;
+                while (optionSize > y) {
+                    JSONObject options = jaOptions.getJSONObject(y);
+                    if (options.has(JsonFormConstants.VALUE) && options.getBoolean(JsonFormConstants.VALUE)) {
+                        resBuilder.append(options.getString(JsonFormConstants.TEXT)).append(", ");
+                    }
+                    y++;
+                }
+
+                String res = resBuilder.toString();
+                res = (res.length() >= 2) ? res.substring(0, res.length() - 2) : "";
+                return res;
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return "";
     }
 
     private static class NameID {
