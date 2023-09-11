@@ -89,10 +89,10 @@ public class VmmcDao extends AbstractDao {
     }
 
     public static String getAnyComplicationsPreviousSurgicalProcedure(String baseEntityId) {
-        String sql = "SELECT complications_previous_surgical FROM ec_vmmc_services p " +
+        String sql = "SELECT type_complication FROM ec_vmmc_services p " +
                 " WHERE p.entity_id = '" + baseEntityId + "' ORDER BY last_interacted_with DESC LIMIT 1";
 
-        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "complications_previous_surgical");
+        DataMap<String> dataMap = cursor -> getCursorValue(cursor, "type_complication");
 
         List<String> res = readData(sql, dataMap);
         if (res != null && res.size() != 0 && res.get(0) != null) {

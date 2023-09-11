@@ -386,9 +386,9 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 //                        (Integer.parseInt(bloodGlucoseTest) < 5.9 || Integer.parseInt(bloodGlucoseTest) > 3.9)) ||
 //                typeForBloodGlucoseTest.isEmpty());
 
-        boolean isAllergiesValid = knownAllergiesValue.equalsIgnoreCase("none");
+        boolean isAllergiesValid = knownAllergiesValue.equalsIgnoreCase("none") ||  knownAllergiesValue.equalsIgnoreCase("silicon_or_lexan");
 
-        boolean isComplicationsValid = !anyComplicationsPreviousSurgicalProcedureValue.equalsIgnoreCase("yes");
+//        boolean isComplicationsValid = !anyComplicationsPreviousSurgicalProcedureValue.contains("excessive_bleeding") || !anyComplicationsPreviousSurgicalProcedureValue.contains("others");
 
         boolean isHIVTestResultValid = hivTestResultValue.equalsIgnoreCase("negative") || hivTestResultValue.isEmpty();
 
@@ -401,7 +401,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 
 
         if (isGentialExaminationValid && isHivValid && isDiabetesValid && isHypetensionValid &&
-                isAllergiesValid && isComplicationsValid && isHIVTestResultValid &&
+                isAllergiesValid && isHIVTestResultValid &&
                 isHematologicalDiseaseValid && isComplaintsValid && isBloodPressureValid) {
             textViewRecordVmmc.setVisibility(View.GONE);
             textViewProcedureVmmc.setVisibility(View.VISIBLE);
