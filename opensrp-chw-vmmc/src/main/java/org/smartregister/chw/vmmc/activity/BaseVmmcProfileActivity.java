@@ -249,6 +249,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             if (serviceVisit != null) {
                 if (!serviceVisit.getProcessed() && VmmcVisitsUtil.getVmmcServiceVisitStatus(serviceVisit).equalsIgnoreCase(VmmcVisitsUtil.Complete)) {
                     manualProcessVisit.setVisibility(View.VISIBLE);
+                    textViewContinueVmmcService.setText(R.string.edit_visit);
                     Visit finalServiceVisit = serviceVisit;
                     manualProcessVisit.setOnClickListener(view -> {
                         try {
@@ -281,6 +282,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             if (procedureVisit != null) {
                 if (!procedureVisit.getProcessed() && VmmcVisitsUtil.getVmmcProcedureVisitStatus(procedureVisit).equalsIgnoreCase(VmmcVisitsUtil.Complete)) {
                     manualProcessVisit.setVisibility(View.VISIBLE);
+                    textViewContinueVmmcProcedure.setText(R.string.edit_visit);
                     Visit finalProcedureVisit = procedureVisit;
                     manualProcessVisit.setOnClickListener(view -> {
                         try {
@@ -309,6 +311,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             if (dischargeVisit != null) {
                 if ((!dischargeVisit.getProcessed() && VmmcVisitsUtil.getVmmcVisitStatus(dischargeVisit).equalsIgnoreCase(VmmcVisitsUtil.Complete))) {
                     manualProcessVisit.setVisibility(View.VISIBLE);
+                    textViewContinueVmmc.setText(R.string.edit_visit);
                     Visit finalDischargeVisit = dischargeVisit;
                     manualProcessVisit.setOnClickListener(view -> {
                         try {
