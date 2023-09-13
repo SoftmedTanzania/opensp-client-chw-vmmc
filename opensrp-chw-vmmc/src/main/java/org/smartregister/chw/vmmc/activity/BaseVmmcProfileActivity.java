@@ -318,7 +318,9 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
                     manualProcessVisit.setOnClickListener(view -> {
                         try {
                             VmmcVisitsUtil.manualProcessVisit(finalDischargeVisit);
-                            VmmcVisitsUtil.manualProcessVisit(finalNotifiableVisit);
+                            if(finalNotifiableVisit != null){
+                                VmmcVisitsUtil.manualProcessVisit(finalNotifiableVisit);
+                            }
                             displayToast(R.string.vmmc_visit_conducted);
                             setupViews();
                         } catch (Exception e) {
@@ -342,7 +344,9 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 
             if (followUpVisit != null) {
                 VmmcVisitsUtil.manualProcessVisit(followUpVisit);
-                VmmcVisitsUtil.manualProcessVisit(notifiableVisit);
+                if (notifiableVisit != null){
+                    VmmcVisitsUtil.manualProcessVisit(notifiableVisit);
+                }
                 processVmmcDischarge();
             }
 
