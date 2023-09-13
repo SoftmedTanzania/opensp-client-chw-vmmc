@@ -223,7 +223,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
         Visit procedureVisit = null;
         Visit dischargeVisit = null;
         Visit followUpVisit = null;
-//        Visit notifiableVisit = null;
+        Visit notifiableVisit = null;
 
         gentialExaminationValue = VmmcDao.getGentialExamination(memberObject.getBaseEntityId());
         diagnosedValue = VmmcDao.getDiagnosed(memberObject.getBaseEntityId());
@@ -245,6 +245,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
             procedureVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_PROCEDURE);
             dischargeVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_DISCHARGE);
             followUpVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_FOLLOW_UP_VISIT);
+            notifiableVisit = VmmcLibrary.getInstance().visitRepository().getLatestVisit(memberObject.getBaseEntityId(), Constants.EVENT_TYPE.VMMC_NOTIFIABLE_EVENTS);
 
             if (serviceVisit != null) {
                 if (!serviceVisit.getProcessed() && VmmcVisitsUtil.getVmmcServiceVisitStatus(serviceVisit).equalsIgnoreCase(VmmcVisitsUtil.Complete)) {
@@ -313,9 +314,11 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
                     manualProcessVisit.setVisibility(View.VISIBLE);
                     textViewContinueVmmc.setText(R.string.edit_visit);
                     Visit finalDischargeVisit = dischargeVisit;
+                    Visit finalNotifiableVisit = notifiableVisit;
                     manualProcessVisit.setOnClickListener(view -> {
                         try {
                             VmmcVisitsUtil.manualProcessVisit(finalDischargeVisit);
+                            VmmcVisitsUtil.manualProcessVisit(finalNotifiableVisit);
                             displayToast(R.string.vmmc_visit_conducted);
                             setupViews();
                         } catch (Exception e) {
@@ -339,6 +342,7 @@ public class BaseVmmcProfileActivity extends BaseProfileActivity implements Vmmc
 
             if (followUpVisit != null) {
                 VmmcVisitsUtil.manualProcessVisit(followUpVisit);
+                VmmcVisitsUtil.manualProcessVisit(notifiableVisit);
                 processVmmcDischarge();
             }
 

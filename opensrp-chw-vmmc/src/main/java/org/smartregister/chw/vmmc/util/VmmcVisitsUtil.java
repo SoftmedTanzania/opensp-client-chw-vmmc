@@ -103,9 +103,15 @@ public class VmmcVisitsUtil extends VisitUtils {
         try {
             JSONObject jsonObject = new JSONObject(lastVisit.getJson());
             JSONArray obs = jsonObject.getJSONArray("obs");
+            JSONObject checkObj = obs.getJSONObject(0);
+            JSONArray value = checkObj.getJSONArray("values");
 
-            completionObject.put("isClientConsentForMcProcedureDone", computeCompletionStatus(obs, "client_consent_for_mc_procedure"));
-            completionObject.put("isMcProcedureDone", computeCompletionStatusForAction(obs, "mc_procedure_completion_status"));
+            if(value.get(0).toString().equalsIgnoreCase("yes")){
+                completionObject.put("isClientConsentForMcProcedureDone", computeCompletionStatus(obs, "client_consent_for_mc_procedure"));
+                completionObject.put("isMcProcedureDone", computeCompletionStatusForAction(obs, "mc_procedure_completion_status"));
+            } else {
+                completionObject.put("isClientConsentForMcProcedureDone", computeCompletionStatus(obs, "client_consent_for_mc_procedure"));
+            }
 
         } catch (Exception e) {
             Timber.e(e);
